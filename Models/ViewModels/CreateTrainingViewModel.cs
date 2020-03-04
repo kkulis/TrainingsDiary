@@ -10,6 +10,7 @@ namespace TrainingDiary.Models.ViewModels
         public int TrainingNumber { get; set; }
         public DateTime TrainingStart { get; set; }
         public DateTime TrainingEnd { get; set; }
+        public TimeSpan TrainigTime { get; set; }
         public IList<ExerciseViewModel> ExerciseViewModels { get; set; }
     }
 }

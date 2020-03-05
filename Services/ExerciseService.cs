@@ -23,7 +23,7 @@ namespace TrainingDiary.Services
 
         public async Task<IEnumerable<ExerciseViewModel>> GetExercises()
         {
-            var exercises = _applicationDbContext.Exercises.ToList();
+            var exercises = _applicationDbContext.Exercises.Include(e => e.Category).ToList();
             var exercisesVm = _mapper.Map<List<ExerciseViewModel>>(exercises);
             return exercisesVm;
         }

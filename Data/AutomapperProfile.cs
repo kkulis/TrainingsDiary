@@ -12,7 +12,8 @@ namespace TrainingDiary.Data
     {
         public AutomapperProfile()
         {
-            CreateMap<Exercise, ExerciseViewModel>();
+            CreateMap<Exercise, ExerciseViewModel>().ReverseMap();
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
         }
 
     }

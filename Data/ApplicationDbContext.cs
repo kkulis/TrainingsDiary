@@ -57,7 +57,20 @@ namespace TrainingDiary.Data
                         Id = Guid.Parse("63CFBA80-9041-4994-BBC9-9F0F28B51388"),
                         Name = "Klata"
                         
-                    }
+                    },
+                    new Category()
+                    {
+                        Id = Guid.Parse("CF36D573-0160-4252-AB78-B12805AE9C07"),
+                        Name = "Plecy"
+
+                    },
+                    new Category()
+                    {
+                        Id = Guid.Parse("F52C961D-BD06-4E33-9ADF-67F587CCAABE"),
+                        Name = "Nogi"
+
+                    },
+
                 });
 
             builder.Entity<Exercise>()
@@ -69,6 +82,34 @@ namespace TrainingDiary.Data
                        Name = "Wyciskanie sztangi na ławce płaskiej",
                        CategoryId = Guid.Parse("63CFBA80-9041-4994-BBC9-9F0F28B51388")
                   
+                   },
+                   new Exercise()
+                   {
+                       Id = Guid.Parse("12F1974D-8EBC-4CAA-8D34-7D350B7AF440"),
+                       Name = "Wyciskanie hantli na ławce płaskiej",
+                       CategoryId = Guid.Parse("63CFBA80-9041-4994-BBC9-9F0F28B51388")
+
+                   },
+                   new Exercise()
+                   {
+                       Id = Guid.Parse("170B139A-B929-40DE-9644-C590B0507819"),
+                       Name = "Podciąganie",
+                       CategoryId = Guid.Parse("CF36D573-0160-4252-AB78-B12805AE9C07")
+
+                   },
+                   new Exercise()
+                   {
+                       Id = Guid.Parse("D4AD5722-7A0B-4A7A-976D-2772E5DAA0B2"),
+                       Name = "przyciąganie wyciągu do klatki",
+                       CategoryId = Guid.Parse("CF36D573-0160-4252-AB78-B12805AE9C07")
+
+                   },
+                   new Exercise()
+                   {
+                       Id = Guid.Parse("C7F43E99-E859-43CE-B6AD-3DCAC667A729"),
+                       Name = "Przysiad",
+                       CategoryId = Guid.Parse("F52C961D-BD06-4E33-9ADF-67F587CCAABE")
+
                    }
 
 

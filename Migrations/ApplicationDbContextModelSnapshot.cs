@@ -37,6 +37,16 @@ namespace TrainingDiary.Migrations
                         {
                             Id = new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"),
                             Name = "Klata"
+                        },
+                        new
+                        {
+                            Id = new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"),
+                            Name = "Plecy"
+                        },
+                        new
+                        {
+                            Id = new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"),
+                            Name = "Nogi"
                         });
                 });
 
@@ -64,6 +74,30 @@ namespace TrainingDiary.Migrations
                             Id = new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"),
                             CategoryId = new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"),
                             Name = "Wyciskanie sztangi na ławce płaskiej"
+                        },
+                        new
+                        {
+                            Id = new Guid("12f1974d-8ebc-4caa-8d34-7d350b7af440"),
+                            CategoryId = new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"),
+                            Name = "Wyciskanie hantli na ławce płaskiej"
+                        },
+                        new
+                        {
+                            Id = new Guid("170b139a-b929-40de-9644-c590b0507819"),
+                            CategoryId = new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"),
+                            Name = "Podciąganie"
+                        },
+                        new
+                        {
+                            Id = new Guid("d4ad5722-7a0b-4a7a-976d-2772e5daa0b2"),
+                            CategoryId = new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"),
+                            Name = "przyciąganie wyciągu do klatki"
+                        },
+                        new
+                        {
+                            Id = new Guid("c7f43e99-e859-43ce-b6ad-3dcac667a729"),
+                            CategoryId = new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"),
+                            Name = "Przysiad"
                         });
                 });
 

@@ -105,7 +105,12 @@ namespace TrainingDiary.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Klata" });
+                values: new object[,]
+                {
+                    { new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Klata" },
+                    { new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "Plecy" },
+                    { new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"), "Nogi" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Trainings",
@@ -115,7 +120,14 @@ namespace TrainingDiary.Migrations
             migrationBuilder.InsertData(
                 table: "Exercises",
                 columns: new[] { "Id", "CategoryId", "Name" },
-                values: new object[] { new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie sztangi na ławce płaskiej" });
+                values: new object[,]
+                {
+                    { new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie sztangi na ławce płaskiej" },
+                    { new Guid("12f1974d-8ebc-4caa-8d34-7d350b7af440"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie hantli na ławce płaskiej" },
+                    { new Guid("170b139a-b929-40de-9644-c590b0507819"), new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "Podciąganie" },
+                    { new Guid("d4ad5722-7a0b-4a7a-976d-2772e5daa0b2"), new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "przyciąganie wyciągu do klatki" },
+                    { new Guid("c7f43e99-e859-43ce-b6ad-3dcac667a729"), new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"), "Przysiad" }
+                });
 
             migrationBuilder.InsertData(
                 table: "TrainingExercises",

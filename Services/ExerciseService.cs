@@ -21,10 +21,10 @@ namespace TrainingDiary.Services
             
         }
 
-        public async Task<ExerciseViewModel> GetExercises()
+        public async Task<IEnumerable<ExerciseViewModel>> GetExercises()
         {
-            var exercises = await _applicationDbContext.Exercises.ToListAsync();
-            var exercisesVm = _mapper.Map<ExerciseViewModel>(exercises);
+            var exercises = _applicationDbContext.Exercises.ToList();
+            var exercisesVm = _mapper.Map<List<ExerciseViewModel>>(exercises);
             return exercisesVm;
         }
 
@@ -32,6 +32,6 @@ namespace TrainingDiary.Services
 
     public interface IExerciseService
     {
-        Task<ExerciseViewModel> GetExercises();
+        Task<IEnumerable<ExerciseViewModel>> GetExercises();
     }
 }

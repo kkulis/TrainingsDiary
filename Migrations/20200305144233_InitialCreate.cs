@@ -60,6 +60,7 @@ namespace TrainingDiary.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TrainingStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TrainingEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrainingTime = table.Column<TimeSpan>(nullable: false),
                     UserId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -108,13 +109,13 @@ namespace TrainingDiary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Trainings",
-                columns: new[] { "Id", "TrainingEnd", "TrainingNumber", "TrainingStart", "UserId" },
-                values: new object[] { new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"), new DateTime(2020, 1, 1, 12, 23, 48, 0, DateTimeKind.Unspecified), 1, new DateTime(2020, 1, 1, 11, 23, 44, 0, DateTimeKind.Unspecified), null });
+                columns: new[] { "Id", "TrainingEnd", "TrainingNumber", "TrainingStart", "TrainingTime", "UserId" },
+                values: new object[] { new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"), new DateTime(2020, 1, 1, 12, 23, 48, 0, DateTimeKind.Unspecified), 1, new DateTime(2020, 1, 1, 11, 23, 44, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0), null });
 
             migrationBuilder.InsertData(
                 table: "Exercises",
                 columns: new[] { "Id", "CategoryId", "Name" },
-                values: new object[] { new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie na ławce płaskiej" });
+                values: new object[] { new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie sztangi na ławce płaskiej" });
 
             migrationBuilder.InsertData(
                 table: "TrainingExercises",

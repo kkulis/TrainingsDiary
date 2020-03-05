@@ -66,9 +66,11 @@ namespace TrainingDiary.Data
                    new Exercise()
                    {
                        Id = Guid.Parse("38B381C8-FD1F-408C-AD25-6401FD6F40CA"),
-                       Name = "Wyciskanie na ławce płaskiej",
+                       Name = "Wyciskanie sztangi na ławce płaskiej",
                        CategoryId = Guid.Parse("63CFBA80-9041-4994-BBC9-9F0F28B51388")
+                  
                    }
+
 
                 });
 

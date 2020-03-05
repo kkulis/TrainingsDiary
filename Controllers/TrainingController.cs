@@ -23,8 +23,23 @@ namespace TrainingDiary.Controllers
         public async Task<IActionResult> CreateTraining()
         {
             var exercises = await _exerciseService.GetExercises();
-            return View(exercises);
+            return View(new CreateTrainingViewModel()
+            {
+                ExerciseViewModels = exercises
 
+            });
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTraining(CreateTrainingViewModel createTrainingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _trainingService.CreateTraining(createTrainingViewModel);
+            }
+
+            return View(createTrainingViewModel);
         }
 
     }

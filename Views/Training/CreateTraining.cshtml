@@ -1,0 +1,17 @@
+﻿@model TrainingDiary.Models.ViewModels.CreateTrainingViewModel
+@{
+    ViewData["Title"] = "CreateTraining";
+}
+
+<h1>CreateTraining</h1>
+
+
+@foreach (var exercise in Model.ExerciseViewModels)
+{
+    <div class=" row">
+        <p>@exercise.Name @exercise.Category</p>
+  
+    </div>
+
+}
+

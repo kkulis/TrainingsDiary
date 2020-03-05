@@ -63,7 +63,7 @@ namespace TrainingDiary.Migrations
                         {
                             Id = new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"),
                             CategoryId = new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"),
-                            Name = "Wyciskanie na ławce płaskiej"
+                            Name = "Wyciskanie sztangi na ławce płaskiej"
                         });
                 });
 
@@ -118,6 +118,9 @@ namespace TrainingDiary.Migrations
                     b.Property<DateTime>("TrainingStart")
                         .HasColumnType("datetime2");
 
+                    b.Property<TimeSpan>("TrainingTime")
+                        .HasColumnType("time");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -135,7 +138,8 @@ namespace TrainingDiary.Migrations
                             Id = new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"),
                             TrainingEnd = new DateTime(2020, 1, 1, 12, 23, 48, 0, DateTimeKind.Unspecified),
                             TrainingNumber = 1,
-                            TrainingStart = new DateTime(2020, 1, 1, 11, 23, 44, 0, DateTimeKind.Unspecified)
+                            TrainingStart = new DateTime(2020, 1, 1, 11, 23, 44, 0, DateTimeKind.Unspecified),
+                            TrainingTime = new TimeSpan(0, 0, 0, 0, 0)
                         });
                 });
 

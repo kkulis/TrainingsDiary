@@ -33,20 +33,6 @@ namespace TrainingDiary.Services
 
             ICollection<ExerciseTraining> exerciseTrainings = new List<ExerciseTraining>();
 
-            var exerciseTraining = createTrainingViewModel.ExerciseViewModels.Where(evm => evm.Series != 0);
-            foreach (var exerciseViewModel in exerciseTraining)
-            {
-                exerciseTrainings.Add(new ExerciseTraining()
-                {
-                    TrainingId = trainingId,
-                    ExerciseID = exerciseViewModel.Id,
-                    Series = exerciseViewModel.Series,
-                    Reps = exerciseViewModel.Reps,
-                    Weight = exerciseViewModel.Weight
-
-                });
-            }
-
             training.ExerciseTraining = exerciseTrainings;
 
             var orderFromDb = _dbContext.Trainings.Add(training);

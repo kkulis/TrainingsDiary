@@ -10,8 +10,6 @@ namespace TrainingDiary.Models.ViewModels
         public Guid Id { get; set; }
         public string Name { get; set; }
         public CategoryViewModel Category { get; set; }
-        public int Series { get; set; }
-        public int Reps { get; set; }
-        public float Weight { get; set; }
+        public IEnumerable<SeriesViewModel> SeriesViewModels { get; set; }
     }
 }

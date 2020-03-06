@@ -3,15 +3,28 @@
     ViewData["Title"] = "CreateTraining";
 }
 
-<h1>CreateTraining</h1>
+<h3>CreateTraining</h3>
 
 
-@foreach (var exercise in Model.ExerciseViewModels)
-{
-    <div class=" row">
-        <p>@exercise.Name @exercise.Category.Name</p>
-  
-    </div>
-
-}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Category</th>
+            <th scope="col">Name</th>
+            <th scope="col">Add</th>
+            <th scope="col">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exercise in Model.ExerciseViewModels)
+        {
+        <tr>
+            <td>@exercise.Category.Name</td>
+            <td>@exercise.Name</td>
+            <td><button class="btn btn-primary">+</button></td>
+            <td><button class="btn btn-dark">-</button></td>
+        </tr>
+        }
+    </tbody>
+</table>
 

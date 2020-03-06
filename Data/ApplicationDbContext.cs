@@ -17,6 +17,7 @@ namespace TrainingDiary.Data
         public DbSet<ExerciseTraining> TrainingExercises { get; set;}
         public DbSet<Training> Trainings { get; set; }
         public DbSet<User> Users { get; set;  }
+        public DbSet<Series> Series { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -35,16 +36,18 @@ namespace TrainingDiary.Data
                 .ValueGeneratedOnAdd()
                 .IsRequired();
 
-            builder.Entity<ExerciseTraining>()
-                .HasKey(et => new { et.TrainingId, et.ExerciseID });
-            builder.Entity<ExerciseTraining>()
-                .HasOne(et => et.Exercise)
-                .WithMany(e => e.ExerciseTraining)
-                .HasForeignKey(et => et.ExerciseID);
-            builder.Entity<ExerciseTraining>()
-                .HasOne(et => et.Training)
-                .WithMany(t => t.ExerciseTraining)
-                .HasForeignKey(et => et.TrainingId);
+            //builder.Entity<ExerciseTraining>()
+            //    .HasKey(et => new { et.TrainingId, et.ExerciseID });
+            //builder.Entity<ExerciseTraining>()
+            //    .HasOne(et => et.Exercise)
+            //    .WithMany(e => e.ExerciseTraining)
+            //    .HasForeignKey(et => et.ExerciseID);
+            //builder.Entity<ExerciseTraining>()
+            //    .HasOne(et => et.Training)
+            //    .WithMany(t => t.ExerciseTraining)
+            //    .HasForeignKey(et => et.TrainingId);
+
+         
 
             
 
@@ -111,8 +114,6 @@ namespace TrainingDiary.Data
                        CategoryId = Guid.Parse("F52C961D-BD06-4E33-9ADF-67F587CCAABE")
 
                    }
-
-
                 });
 
             builder.Entity<ExerciseTraining>()
@@ -120,11 +121,9 @@ namespace TrainingDiary.Data
                 {
                     new ExerciseTraining()
                     {
+                        Id = Guid.Parse("94F9CA0F-2D3C-4C10-98B4-9F81AC9EE7C3"),
                         ExerciseID = Guid.Parse("38B381C8-FD1F-408C-AD25-6401FD6F40CA"),
                         TrainingId = Guid.Parse("6BE892A5-12CA-493D-BB74-4EF5B9175BF5"),
-                        Series = 4,
-                        Weight = 60,
-                        Reps = 12
                     }
                 });
 
@@ -137,6 +136,18 @@ namespace TrainingDiary.Data
                         TrainingStart = new DateTime(2020, 1, 1, 11,23,44),
                         TrainingEnd = new DateTime(2020, 1, 1, 12,23,48),
                         TrainingNumber = 1
+                    }
+                });
+
+            builder.Entity<Series>()
+                .HasData(new List<Series>()
+                {
+                    new Series()
+                    {
+                        Id = Guid.Parse("2573ADEB-2AAA-43A6-830A-BAECB6586A4D"),
+                        ExerciseTrainingId = Guid.Parse("94F9CA0F-2D3C-4C10-98B4-9F81AC9EE7C3"),
+                        Reps = 12,
+                        Weight = 60,
                     }
                 });
         }

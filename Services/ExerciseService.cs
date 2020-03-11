@@ -28,10 +28,17 @@ namespace TrainingDiary.Services
             return exercisesVm;
         }
 
+        public async Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId)
+        {
+            var exercise = await _applicationDbContext.Exercises.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == exerciseId);
+            return _mapper.Map<ExerciseViewModel>(exercise);
+        }
+
     }
 
     public interface IExerciseService
     {
         Task<IEnumerable<ExerciseViewModel>> GetExercises();
+        Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
     }
 }

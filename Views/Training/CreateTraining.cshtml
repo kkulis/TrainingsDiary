@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "CreateTraining";
 }
-
+<div class="container">
 <h3>CreateTraining</h3>
 
 
@@ -18,13 +18,15 @@
     <tbody>
         @foreach (var exercise in Model.ExerciseViewModels)
         {
-        <tr>
-            <td>@exercise.Category.Name</td>
-            <td>@exercise.Name</td>
-            <td><button class="btn btn-primary">+</button></td>
-            <td><button class="btn btn-dark">-</button></td>
-        </tr>
+            <tr>
+                <td>@exercise.Category.Name</td>
+                <td>@exercise.Name</td>
+                <td><a asp-controller="Training" asp-action="AddExercise" asp-route-exerciseId="@exercise.Id" class="btn btn-primary">+</a></td>
+                <td><button class="btn btn-dark">-</button></td>
+            </tr>
         }
     </tbody>
 </table>
+    </div>
+
 

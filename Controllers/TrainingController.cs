@@ -42,5 +42,19 @@ namespace TrainingDiary.Controllers
             return View(createTrainingViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddExercise(Guid? exerciseId)
+        {
+            if (exerciseId == null)
+            {
+                return RedirectToAction("/CreateTraining"); //to nie działa!
+            }
+            var exercise = await _exerciseService.Get1Exercise(exerciseId.Value);
+
+            return View(exercise);
+            
+
+
+        }
     }
 }

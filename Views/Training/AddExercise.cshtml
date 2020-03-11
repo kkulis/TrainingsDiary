@@ -1,0 +1,32 @@
+﻿@model TrainingDiary.Models.ViewModels.ExerciseViewModel
+@{
+    ViewData["Title"] = "AddExercise";
+}
+<div class="container">
+    <h1>@Model.Name</h1>
+
+    <!---   <label for="numberofSeries">Number of Series</label>
+       <div class="input-group">
+
+           <input type="number" class="form-control" id="numberofSeries" placeholder="amount" />
+           <div class="input-group-append">
+               <button class="btn btn-primary" id="addSeries">+</button>
+               <button class="btn btn-dark" id="removeSeries">-</button>
+           </div>
+       </div>
+       <div class="row">
+
+       </div>
+    -->
+
+    <div id="AddExerciseContainer" class="row">
+    </div>
+
+</div>
+
+
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/16.13.0/umd/react.development.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.13.0/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="@Url.Content("~/js/reactAddExercise.jsx")"></script>
+

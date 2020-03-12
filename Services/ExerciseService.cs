@@ -34,11 +34,17 @@ namespace TrainingDiary.Services
             return _mapper.Map<ExerciseViewModel>(exercise);
         }
 
+     //   public async Task<ExerciseViewModel>PostExercise(ExerciseViewModel exerciseViewModel)
+     //   {
+
+     //   }
+
     }
 
     public interface IExerciseService
     {
         Task<IEnumerable<ExerciseViewModel>> GetExercises();
         Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
+       // Task<ExerciseViewModel> PostExercise(ExerciseViewModel exerciseViewModel);
     }
 }

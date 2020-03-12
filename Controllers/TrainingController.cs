@@ -47,7 +47,7 @@ namespace TrainingDiary.Controllers
         {
             if (exerciseId == null)
             {
-                return RedirectToAction("/CreateTraining"); //to nie działa!
+                return RedirectToAction("/CreateTraining");
             }
             var exercise = await _exerciseService.Get1Exercise(exerciseId.Value);
 

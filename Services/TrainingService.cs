@@ -28,7 +28,7 @@ namespace TrainingDiary.Services
                 Id = trainingId,
                 TrainingStart = createTrainingViewModel.TrainingStart,
                 TrainingEnd = createTrainingViewModel.TrainingEnd,
-                TrainingTime = await _timeCalculator.GetTrainingTime(createTrainingViewModel)
+                TrainingTime = await _timeCalculator.GetTrainingTime(createTrainingViewModel),
             };
 
             ICollection<ExerciseTraining> exerciseTrainings = new List<ExerciseTraining>();

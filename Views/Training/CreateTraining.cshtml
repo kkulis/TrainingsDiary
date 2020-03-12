@@ -5,7 +5,12 @@
 <div class="container">
 <h3>CreateTraining</h3>
 
-
+<form asp-controller="Training" asp-action="CreateTraining">
+    <p>
+        Title: <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>

@@ -22,9 +22,17 @@ namespace TrainingDiary.Services
             
         }
 
-        public async Task<IEnumerable<ExerciseViewModel>> GetExercises()
+        public async Task<IEnumerable<ExerciseViewModel>> GetExercises(string? searchString)
         {
-            var exercises = _applicationDbContext.Exercises.Include(e => e.Category).ToList();
+            var exercises = _applicationDbContext.Exercises.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                exercises = exercises.Where(e => e.Name.Contains(searchString));
+            }
+
+            var exerciseList = exercises.Include(el => el.Category).ToList();
+
             var exercisesVm = _mapper.Map<List<ExerciseViewModel>>(exercises);
             return exercisesVm;
         }
@@ -66,7 +74,7 @@ namespace TrainingDiary.Services
 
     public interface IExerciseService
     {
-        Task<IEnumerable<ExerciseViewModel>> GetExercises();
+        Task<IEnumerable<ExerciseViewModel>> GetExercises(string? searchString);
         Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
         Task<ExerciseTraining> AddExercise(ExerciseViewModel exerciseViewModel);
     }

@@ -3,35 +3,38 @@
     ViewData["Title"] = "CreateTraining";
 }
 <div class="container">
-<h3>CreateTraining</h3>
+    <h3>CreateTraining</h3>
 
-<form asp-controller="Training" asp-action="CreateTraining">
-    <p>
-        Title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Category</th>
-            <th scope="col">Name</th>
-            <th scope="col">Add</th>
-            <th scope="col">Remove</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var exercise in Model.ExerciseViewModels)
-        {
+    <form asp-controller="Training" asp-action="CreateTraining" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchString" placeholder="search name">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </div>
+
+    </form>
+    <table class="table">
+        <thead>
             <tr>
-                <td>@exercise.Category.Name</td>
-                <td>@exercise.Name</td>
-                <td><a asp-controller="Training" asp-action="AddExercise" asp-route-exerciseId="@exercise.Id" class="btn btn-primary">+</a></td>
-                <td><button class="btn btn-dark">-</button></td>
+                <th scope="col">Category</th>
+                <th scope="col">Name</th>
+                <th scope="col">Add</th>
+                <th scope="col">Remove</th>
             </tr>
-        }
-    </tbody>
-</table>
-    </div>
+        </thead>
+        <tbody>
+            @foreach (var exercise in Model.ExerciseViewModels)
+            {
+                <tr>
+                    <td>@exercise.Category.Name</td>
+                    <td>@exercise.Name</td>
+                    <td><a asp-controller="Training" asp-action="AddExercise" asp-route-exerciseId="@exercise.Id" class="btn btn-primary">+</a></td>
+                    <td><button class="btn btn-dark">-</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 

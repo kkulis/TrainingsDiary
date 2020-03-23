@@ -22,24 +22,13 @@ namespace TrainingDiary.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTraining(string searchString)
         {
-            var exercises = await _exerciseService.GetExercises();
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                return View(new CreateTrainingViewModel()
-                {
-                    ExerciseViewModels = exercises.Where(s => s.Name.Contains(searchString))
+            var exercises = await _exerciseService.GetExercises(searchString);
 
-                });
-            }
-            else
-            {
                 return View(new CreateTrainingViewModel()
                 {
                     ExerciseViewModels = exercises
 
-                });
-            }
-
+                });      
         }
 
         [HttpPost]

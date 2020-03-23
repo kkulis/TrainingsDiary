@@ -159,8 +159,8 @@ class NewSeries extends React.Component {
 
   render() {
     return (
-      <div class="row">
-        <div class="col">
+      <div className="row">
+        <div className="col">
           <label htmlFor="numberofSeries">Number of Reps</label>
           <div className="input-group">
             <InputRepsNumber reps={this.state.reps} />

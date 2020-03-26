@@ -3,15 +3,18 @@ class AddExercise extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      numOfSeries: 0
+      numOfSeries: 0,
+      series: [],
+      data: []
     }
   }
 
   onPlusClick = () => {
     console.log("+ click!");
     this.setState(({ numOfSeries }) => ({
-      numOfSeries: numOfSeries + 1
+      numOfSeries: numOfSeries + 1,
     }));
+    this.state.series.push(<NewSeries />);
   }
 
   onMinusClick = () => {
@@ -26,14 +29,32 @@ class AddExercise extends React.Component {
         numOfSeries: 0
       })
     }
+    this.state.series.splice(-1, 1);
   }
+
+  onSubmitSeriesClick = (serie) => {
+    console.log("submit addex");
+    this.state.data.push('reps', serie.reps);
+    this.state.data.push('weight', serie.weight);
+ 
+  }
+
   render() {
 
-    const series = [];
+    //const series = [];
 
-    for (var i = 0; i < this.state.numOfSeries; i++) {
-      series.push(<NewSeries key={i} number={i} />)
-    };
+    // for (var i = 0; i < this.state.numOfSeries; i++) {
+    //   series.push(<NewSeries key={i} number={i} onChange={this.handleSeriesChange} value={this.state.series[i]}/>)
+    //  };
+
+    const series = this.state.series.map((serie, index) => (
+      <NewSeries
+        key={index}
+        id={index}
+        onSubmitSeriesClick={this.onSubmitSeriesClick}
+        value={serie}
+      />
+    ));
 
     return (
       <div>
@@ -49,12 +70,30 @@ class AddExercise extends React.Component {
         <div>
           {series}
         </div>
+        <hr className="style 5"></hr>
+        <div className="text-center">
+          <SubmitButton onSubmitClick={this.onSubmitClick} />
+        </div>
 
       </div>
     );
   }
 }
 
+class SubmitButton extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.onSubmitClick = props.onSubmitClick;
+
+  }
+
+  render() {
+    return (
+      <button className="btn btn-primary" onClick={this.onSubmitClick}>Submit</button>
+    )
+  }
+}
 
 class AddSeriesButton extends React.Component {
   constructor(props) {
@@ -157,11 +196,30 @@ class NewSeries extends React.Component {
     }
   }
 
+  onSubmitClick = () => {
+    console.log("Submit click");
+    const reps = this.state.reps;
+    const weight = this.state.weight;
+
+    if (!reps) {
+      return;
+    }
+    this.props.onSubmitSeriesClick({ reps: reps, weight: weight })
+    this.setState(
+      {
+        reps: 0,
+        weight: 0
+      }
+    )
+
+  }
+
+
   render() {
     return (
       <div className="row">
         <div className="col">
-          <label htmlFor="numberofSeries">Number of Reps</label>
+          <label htmlFor="numberofReps">Number of Reps</label>
           <div className="input-group">
             <InputRepsNumber reps={this.state.reps} />
             <div className="input-group-append">
@@ -170,8 +228,8 @@ class NewSeries extends React.Component {
             </div>
           </div>
         </div>
-        <div class="col">
-          <label htmlFor="numberofSeries">Weight</label>
+        <div className="col">
+          <label htmlFor="numberofWeight">Weight</label>
           <div className="input-group">
             <InputWeightNumber weight={this.state.weight} />
             <div className="input-group-append">
@@ -180,9 +238,30 @@ class NewSeries extends React.Component {
             </div>
           </div>
         </div>
+        <div classNane="col">
+          <label>Add Series</label>
+          <div className="input-group">
+            <SubmitSeriesButton onSubmitClick={this.onSubmitClick} />
+          </div>
+        </div>
         <hr className="style 5"></hr>
       </div>
     );
+  }
+}
+
+class SubmitSeriesButton extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.onSubmitClick = props.onSubmitClick
+  }
+  render() {
+    return (
+      <div>
+        <button className="btn btn-success" onClick={this.onSubmitClick}>Add</button>
+      </div>
+    )
   }
 }
 

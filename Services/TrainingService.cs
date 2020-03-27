@@ -19,6 +19,23 @@ namespace TrainingDiary.Services
             _timeCalculator = timeCalculator;
         }
 
+        public async Task<Guid> AddTraining(CreateTrainingViewModel createTrainingViewModel)
+        {
+            var trainingId = Guid.NewGuid();
+
+            var training = new Training
+            {
+                Id = trainingId,
+                TrainingStart = createTrainingViewModel.TrainingStart,
+                TrainingEnd = createTrainingViewModel.TrainingEnd
+            };
+
+            var trainingFromDb = _dbContext.Trainings.Add(training);
+            await _dbContext.SaveChangesAsync();
+
+            return trainingFromDb.Entity.Id;
+        }
+
         public async Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel)
         {
             var trainingId = Guid.NewGuid();
@@ -45,5 +62,6 @@ namespace TrainingDiary.Services
     public interface ITrainingService
     {
         Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel);
+        Task<Guid> AddTraining(CreateTrainingViewModel createTrainingView);
     }
 }

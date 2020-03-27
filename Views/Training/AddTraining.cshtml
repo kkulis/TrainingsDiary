@@ -1,0 +1,21 @@
+﻿@model TrainingDiary.Models.ViewModels.CreateTrainingViewModel
+@{
+    ViewData["Title"] = "AddExercise";
+}
+
+<div class="container">
+    <form asp-action="AddTraining">
+        <h2>Add Training</h2>
+        <div class="form-group">
+            <label asp-for="TrainingStart"></label>
+            <input asp-for="TrainingStart" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" max="2030-10-02T00:00">
+            <span asp-validation-for="TrainingStart"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TrainingEnd"></label>
+            <input asp-for="TrainingEnd" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" max="2030-10-02T00:00">
+            <span asp-validation-for="TrainingEnd"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>

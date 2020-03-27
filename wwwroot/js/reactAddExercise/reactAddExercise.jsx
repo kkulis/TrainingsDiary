@@ -39,6 +39,27 @@ class AddExercise extends React.Component {
  
   }
 
+  onSubmitClick = () => {
+    console.log("Submit all click");
+    const data = this.state.data;
+
+    fetch('/Training/AddExercise', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Succes", data);
+    })
+    .catch((error) =>{
+      console.error('error', error);
+    })
+
+  }
+
   render() {
 
     //const series = [];
@@ -218,6 +239,7 @@ class NewSeries extends React.Component {
   render() {
     return (
       <div className="row">
+
         <div className="col">
           <label htmlFor="numberofReps">Number of Reps</label>
           <div className="input-group">
@@ -259,7 +281,7 @@ class SubmitSeriesButton extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-success" onClick={this.onSubmitClick}>Add</button>
+        <button className="btn btn-success" type = "submit" value="Post" onClick={this.onSubmitClick}>Add</button>
       </div>
     )
   }
@@ -355,4 +377,7 @@ class RemoveRepsButton extends React.Component {
 
 
 
-ReactDOM.render(<AddExercise />, document.getElementById('AddExerciseContainer'));
+ReactDOM.render(
+  <AddExercise />, 
+  document.getElementById('AddExerciseContainer')
+  );

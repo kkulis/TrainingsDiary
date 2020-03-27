@@ -20,6 +20,24 @@ namespace TrainingDiary.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> AddTraining()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTraining(CreateTrainingViewModel createTrainingViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var trainingGuid = await _trainingService.AddTraining(createTrainingViewModel);
+                return RedirectToAction("CreateTraining", new { trainingGuid });
+            }
+
+            return View(createTrainingViewModel);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> CreateTraining(string searchString)
         {
             var exercises = await _exerciseService.GetExercises(searchString);
@@ -27,7 +45,6 @@ namespace TrainingDiary.Controllers
                 return View(new CreateTrainingViewModel()
                 {
                     ExerciseViewModels = exercises
-
                 });      
         }
 
@@ -51,11 +68,13 @@ namespace TrainingDiary.Controllers
             }
             var exercise = await _exerciseService.Get1Exercise(exerciseId.Value);
 
+
             return View(exercise);
            
         }
 
         [HttpPost]
+        //[Route("CreateTraining/AddExercise/")]
         public async Task<IActionResult> AddExercise(ExerciseViewModel exerciseViewModel)
         {
             if(ModelState.IsValid)

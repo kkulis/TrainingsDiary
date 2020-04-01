@@ -39,7 +39,7 @@ namespace TrainingDiary.Services
 
         public async Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId)
         {
-            var exercise = await _applicationDbContext.Exercises.Include(e => e.Category).FirstOrDefaultAsync(e => e.Id == exerciseId);
+            var exercise = await _applicationDbContext.TrainingExercises.Include(e => e.Exercise).FirstOrDefaultAsync(e => e.Id == exerciseId);
             return _mapper.Map<ExerciseViewModel>(exercise);
         }
 

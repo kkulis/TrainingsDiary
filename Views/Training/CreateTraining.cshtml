@@ -14,27 +14,31 @@
         </div>
 
     </form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Category</th>
-                <th scope="col">Name</th>
-                <th scope="col">Add</th>
-                <th scope="col">Remove</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var exercise in Model.ExerciseViewModels)
-            {
+    <form asp-controller="Training" asp-action="CreateTraining" method="post">
+        @Html.HiddenFor(t => t.TrainingNumber)
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@exercise.Category.Name</td>
-                    <td>@exercise.Name</td>
-                    <td><a asp-controller="Training" asp-action="AddExercise" asp-route-exerciseId="@exercise.Id" class="btn btn-primary">+</a></td>
-                    <td><button class="btn btn-dark">-</button></td>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Add</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.ExerciseViewModels.Count(); i++)
+                {
+                    <tr>
+                        @Html.HiddenFor(exerciseName => Model.ExerciseViewModels[i].Id)
+                        <td>@Model.ExerciseViewModels[i].Category.Name</td>
+                        <td>@Model.ExerciseViewModels[i].Name</td>
+                        <td><input class="btn btn-primary" type="submit" value="Add" /></td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    </form>
 </div>
 
 

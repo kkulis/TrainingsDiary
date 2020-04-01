@@ -13,7 +13,7 @@ namespace TrainingDiary.Data.POCO
         public DateTime TrainingStart { get; set; }
         public DateTime TrainingEnd { get; set; }
         public TimeSpan TrainingTime { get; set; }
-        [JsonIgnore]
+       // [JsonIgnore]
         public virtual ICollection<ExerciseTraining> ExerciseTraining { get; set; }
 
 

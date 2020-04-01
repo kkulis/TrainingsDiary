@@ -30,22 +30,24 @@ namespace TrainingDiary.Controllers
         {
             if (ModelState.IsValid)
             {
-                var trainingGuid = await _trainingService.AddTraining(createTrainingViewModel);
-                return RedirectToAction("CreateTraining", new { trainingGuid });
+                var trainingId = await _trainingService.AddTraining(createTrainingViewModel);
+                return RedirectToAction("CreateTraining", new { trainingId });
             }
 
             return View(createTrainingViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateTraining(string searchString)
+        public async Task<IActionResult> CreateTraining(string searchString, int trainingId)
         {
             var exercises = await _exerciseService.GetExercises(searchString);
+            var training = await _trainingService.GetTraining(trainingId);
 
                 return View(new CreateTrainingViewModel()
                 {
+                    TrainingNumber = training.TrainingNumber,
                     ExerciseViewModels = exercises
-                });      
+                });;      
         }
 
         [HttpPost]
@@ -53,7 +55,8 @@ namespace TrainingDiary.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _trainingService.CreateTraining(createTrainingViewModel);
+                var exerciseId = await _trainingService.AddExercise(createTrainingViewModel);
+                return RedirectToAction("AddExercise", new { exerciseId });
             }
 
             return View(createTrainingViewModel);
@@ -79,7 +82,7 @@ namespace TrainingDiary.Controllers
         {
             if(ModelState.IsValid)
             {
-                await _exerciseService.AddExercise(exerciseViewModel);
+        //        await _exerciseService.AddExercise(exerciseViewModel);
                 return RedirectToAction("/CreateTraining");
             }
                  

@@ -22,7 +22,7 @@ namespace TrainingDiary.Services
             
         }
 
-        public async Task<IEnumerable<ExerciseViewModel>> GetExercises(string? searchString)
+        public async Task<IList<ExerciseViewModel>> GetExercises(string? searchString)
         {
             var exercises = _applicationDbContext.Exercises.AsQueryable();
 
@@ -33,7 +33,7 @@ namespace TrainingDiary.Services
 
             var exerciseList = exercises.Include(el => el.Category).ToList();
 
-            var exercisesVm = _mapper.Map<List<ExerciseViewModel>>(exercises);
+            var exercisesVm = _mapper.Map<List<ExerciseViewModel>>(exerciseList);
             return exercisesVm;
         }
 
@@ -43,39 +43,39 @@ namespace TrainingDiary.Services
             return _mapper.Map<ExerciseViewModel>(exercise);
         }
 
-        public async Task<ExerciseTraining>AddExercise(ExerciseViewModel exerciseViewModel)
-        {
-            var exercise = new ExerciseTraining
-            {
-                ExerciseID = exerciseViewModel.Id,
-            };
+        //public async Task<ExerciseTraining>AddExercise(ExerciseViewModel exerciseViewModel)
+        //{
+        //    var exercise = new ExerciseTraining
+        //    {
+        //        ExerciseID = exerciseViewModel.Id,
+        //    };
 
 
-            ICollection<Series> series = new List<Series>();
+        //    ICollection<Series> series = new List<Series>();
 
-            var exerciseSeries = exerciseViewModel.SeriesViewModels.ToList();
-            foreach (var SeriesViewModel in exerciseSeries)
-            {
-                series.Add(new Series()
-                {
-                    Reps = SeriesViewModel.Reps,
-                    Weight = SeriesViewModel.Weight
-                }); 
-            }
+        //    var exerciseSeries = exerciseViewModel.SeriesViewModels.ToList();
+        //    foreach (var SeriesViewModel in exerciseSeries)
+        //    {
+        //        series.Add(new Series()
+        //        {
+        //            Reps = SeriesViewModel.Reps,
+        //            Weight = SeriesViewModel.Weight
+        //        }); 
+        //    }
 
-            exercise.Series = series;
+        //    exercise.Series = series;
 
-            var addResult = _applicationDbContext.TrainingExercises.AddAsync(exercise);
-            await _applicationDbContext.SaveChangesAsync();
-            return (await addResult).Entity;
-        }
+        //    var addResult = _applicationDbContext.TrainingExercises.AddAsync(exercise);
+        //    await _applicationDbContext.SaveChangesAsync();
+        //    return (await addResult).Entity;
+        //}
 
     }
 
     public interface IExerciseService
     {
-        Task<IEnumerable<ExerciseViewModel>> GetExercises(string? searchString);
+        Task<IList<ExerciseViewModel>> GetExercises(string? searchString);
         Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
-        Task<ExerciseTraining> AddExercise(ExerciseViewModel exerciseViewModel);
+       // Task<ExerciseTraining> AddExercise(ExerciseViewModel exerciseViewModel);
     }
 }

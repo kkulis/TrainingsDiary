@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,58 +12,101 @@ namespace TrainingDiary.Services
 {
     public class TrainingService : ITrainingService
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
         private readonly TimeCalculator _timeCalculator;
+        private readonly IMapper _mapper;
 
-        public TrainingService(ApplicationDbContext dbContext, TimeCalculator timeCalculator)
+        public TrainingService(ApplicationDbContext applicationDbContext, TimeCalculator timeCalculator, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _applicationDbContext = applicationDbContext;
             _timeCalculator = timeCalculator;
+            _mapper = mapper;
         }
 
-        public async Task<Guid> AddTraining(CreateTrainingViewModel createTrainingViewModel)
+        public async Task<int> AddTraining(CreateTrainingViewModel createTrainingViewModel)
         {
             var trainingId = Guid.NewGuid();
-
-            var training = new Training
-            {
-                Id = trainingId,
-                TrainingStart = createTrainingViewModel.TrainingStart,
-                TrainingEnd = createTrainingViewModel.TrainingEnd
-            };
-
-            var trainingFromDb = _dbContext.Trainings.Add(training);
-            await _dbContext.SaveChangesAsync();
-
-            return trainingFromDb.Entity.Id;
-        }
-
-        public async Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel)
-        {
-            var trainingId = Guid.NewGuid();
-
+            
             var training = new Training
             {
                 Id = trainingId,
                 TrainingStart = createTrainingViewModel.TrainingStart,
                 TrainingEnd = createTrainingViewModel.TrainingEnd,
-                TrainingTime = await _timeCalculator.GetTrainingTime(createTrainingViewModel),
+                TrainingTime = await _timeCalculator.GetTrainingTime(createTrainingViewModel)
             };
 
-            ICollection<ExerciseTraining> exerciseTrainings = new List<ExerciseTraining>();
+            var trainingFromDb = _applicationDbContext.Trainings.Add(training);
+            await _applicationDbContext.SaveChangesAsync();
 
-            training.ExerciseTraining = exerciseTrainings;
-
-            var orderFromDb = _dbContext.Trainings.Add(training);
-            await _dbContext.SaveChangesAsync();
-
-            return orderFromDb.Entity.TrainingNumber;
+            return trainingFromDb.Entity.TrainingNumber;
         }
+
+        //public async Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel)
+        //{
+        //    var trainingId = Guid.NewGuid();
+
+        //    var training = new Training
+        //    {
+        //        Id = trainingId,
+        //        TrainingStart = createTrainingViewModel.TrainingStart,
+        //        TrainingEnd = createTrainingViewModel.TrainingEnd,
+        //        TrainingTime = await _timeCalculator.GetTrainingTime(createTrainingViewModel),
+        //    };
+
+        //    ICollection<ExerciseTraining> exerciseTrainings = new List<ExerciseTraining>();
+
+        //    training.ExerciseTraining = exerciseTrainings;
+
+        //    var orderFromDb = _applicationDbContext.Trainings.Add(training);
+        //    await _applicationDbContext.SaveChangesAsync();
+
+        //    return orderFromDb.Entity.TrainingNumber;
+        //}
+
+        public async Task<Guid> AddExercise(CreateTrainingViewModel createTrainingViewModel)
+        {
+            int trainingNumber = createTrainingViewModel.TrainingNumber;
+
+            var training = await _applicationDbContext.Trainings.Include(t => t.ExerciseTraining).FirstOrDefaultAsync(t => t.TrainingNumber == trainingNumber);
+
+            var trainingGuid = training.Id;
+
+            var exerciseId = Guid.NewGuid();
+
+            var exerciseFromVm = createTrainingViewModel.ExerciseViewModels.First();
+
+            var exercise = new ExerciseTraining
+            {
+                Id = exerciseId,
+                ExerciseID = exerciseFromVm.Id,
+                TrainingId = trainingGuid
+            };
+
+            _applicationDbContext.TrainingExercises.Add(exercise);
+            await _applicationDbContext.SaveChangesAsync();
+
+            return exerciseId;
+
+
+        }
+
+        public async Task<CreateTrainingViewModel> GetTraining(int trainingId)
+        {
+            var training = await _applicationDbContext.Trainings.FirstOrDefaultAsync(t => t.TrainingNumber == trainingId);
+
+            return _mapper.Map<CreateTrainingViewModel>(training);
+        }
+
+
 
     }
     public interface ITrainingService
     {
-        Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel);
-        Task<Guid> AddTraining(CreateTrainingViewModel createTrainingView);
+        //Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel);
+        Task<int> AddTraining(CreateTrainingViewModel createTrainingView);
+        Task<Guid> AddExercise(CreateTrainingViewModel createTrainingViewModel);
+        Task<CreateTrainingViewModel> GetTraining(int trainingId);
+
+
     }
 }

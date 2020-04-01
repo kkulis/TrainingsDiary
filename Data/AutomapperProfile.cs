@@ -14,6 +14,7 @@ namespace TrainingDiary.Data
         {
             CreateMap<Exercise, ExerciseViewModel>().ReverseMap();
             CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Training, CreateTrainingViewModel>().ReverseMap();
         }
 
     }

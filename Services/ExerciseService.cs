@@ -43,32 +43,43 @@ namespace TrainingDiary.Services
             return _mapper.Map<ExerciseViewModel>(exercise);
         }
 
-        //public async Task<ExerciseTraining>AddExercise(ExerciseViewModel exerciseViewModel)
-        //{
-        //    var exercise = new ExerciseTraining
-        //    {
-        //        ExerciseID = exerciseViewModel.Id,
-        //    };
+        public async Task<int> AddExercise(ExerciseViewModel exerciseViewModel)
+        {
+            var exerciseId = exerciseViewModel.Id;
+            var trainingGuid = exerciseViewModel.TrainingId;
 
+            var training = await _applicationDbContext.Trainings.FirstOrDefaultAsync(t => t.Id == trainingGuid);
 
-        //    ICollection<Series> series = new List<Series>();
+            var exercise = await _applicationDbContext.TrainingExercises.FirstOrDefaultAsync(e => e.Id == exerciseId);
 
-        //    var exerciseSeries = exerciseViewModel.SeriesViewModels.ToList();
-        //    foreach (var SeriesViewModel in exerciseSeries)
-        //    {
-        //        series.Add(new Series()
-        //        {
-        //            Reps = SeriesViewModel.Reps,
-        //            Weight = SeriesViewModel.Weight
-        //        }); 
-        //    }
+            ICollection<Series> series = new List<Series>();
 
-        //    exercise.Series = series;
+            var seriesDone = exerciseViewModel.SeriesViewModels.ToList();
 
-        //    var addResult = _applicationDbContext.TrainingExercises.AddAsync(exercise);
-        //    await _applicationDbContext.SaveChangesAsync();
-        //    return (await addResult).Entity;
-        //}
+            foreach (var serie in seriesDone)
+            {
+                series.Add(new Series()
+                {
+                    ExerciseTrainingId = exerciseId,
+                    Id = Guid.NewGuid(),
+                    Reps = serie.Reps,
+                    Weight = serie.Weight
+                });
+            }
+
+            exercise.Series = series;
+
+            _applicationDbContext.TrainingExercises.Update(exercise);
+            await _applicationDbContext.SaveChangesAsync();
+
+            int trainingNumber = training.TrainingNumber;
+
+            return trainingNumber;
+            
+
+           
+
+        }
 
     }
 
@@ -76,6 +87,6 @@ namespace TrainingDiary.Services
     {
         Task<IList<ExerciseViewModel>> GetExercises(string? searchString);
         Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
-       // Task<ExerciseTraining> AddExercise(ExerciseViewModel exerciseViewModel);
+        Task<int> AddExercise(ExerciseViewModel exerciseViewModel);
     }
 }

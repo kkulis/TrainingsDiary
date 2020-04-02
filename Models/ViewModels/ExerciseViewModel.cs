@@ -8,6 +8,7 @@ namespace TrainingDiary.Models.ViewModels
     public class ExerciseViewModel
     {
         public Guid Id { get; set; }
+        public Guid TrainingId { get; set; }
         public string Name { get; set; }
         public CategoryViewModel Category { get; set; }
         public IEnumerable<SeriesViewModel> SeriesViewModels { get; set; }

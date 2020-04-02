@@ -82,8 +82,8 @@ namespace TrainingDiary.Controllers
         {
             if(ModelState.IsValid)
             {
-        //        await _exerciseService.AddExercise(exerciseViewModel);
-                return RedirectToAction("/CreateTraining");
+                var trainingId = await _exerciseService.AddExercise(exerciseViewModel);
+                return RedirectToAction("CreateTraining", new { trainingId });
             }
                  
             return View(exerciseViewModel);

@@ -2,18 +2,20 @@
 @{
     ViewData["Title"] = "CreateTraining";
 }
-<div class="container">
-    <h3>Add Exercises</h3>
+    <div class="container">
+        <h3>Add Exercises</h3>
 
-    <form asp-controller="Training" asp-action="CreateTraining" method="get">
-        <div class="input-group">
-            <input type="text" class="form-control" name="searchString" placeholder="search name">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
+        <form asp-controller="Training" asp-action="CreateTraining" method="get">
+            @Html.HiddenFor(t => t.TrainingNumber)
+            <div class="input-group">
+                <input type="text" class="form-control" name="searchString" placeholder="search name">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+
+                </div>
             </div>
-        </div>
 
-    </form>
+        </form>
     <form asp-controller="Training" asp-action="CreateTraining" method="post">
         @Html.HiddenFor(t => t.TrainingNumber)
         <table class="table">
@@ -39,6 +41,6 @@
 
         </table>
     </form>
-</div>
+    </div>
 
 

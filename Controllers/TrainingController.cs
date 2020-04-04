@@ -30,18 +30,18 @@ namespace TrainingDiary.Controllers
         {
             if (ModelState.IsValid)
             {
-                var trainingId = await _trainingService.AddTraining(createTrainingViewModel);
-                return RedirectToAction("CreateTraining", new { trainingId });
+                var TrainingNumber = await _trainingService.AddTraining(createTrainingViewModel);
+                return RedirectToAction("CreateTraining", new { TrainingNumber });
             }
 
             return View(createTrainingViewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateTraining(string searchString, int trainingId)
+        public async Task<IActionResult> CreateTraining(string searchString, int TrainingNumber)
         {
             var exercises = await _exerciseService.GetExercises(searchString);
-            var training = await _trainingService.GetTraining(trainingId);
+            var training = await _trainingService.GetTraining(TrainingNumber);
 
                 return View(new CreateTrainingViewModel()
                 {
@@ -62,13 +62,9 @@ namespace TrainingDiary.Controllers
             return View(createTrainingViewModel);
         }
 
-        [HttpGet]
+
         public async Task<IActionResult> AddExercise(Guid? exerciseId)
         {
-            if (exerciseId == null)
-            {
-                return RedirectToAction("/CreateTraining");
-            }
             var exercise = await _exerciseService.Get1Exercise(exerciseId.Value);
 
 
@@ -76,14 +72,23 @@ namespace TrainingDiary.Controllers
            
         }
 
+        public async Task<IActionResult> GetExercise(Guid? exerciseId)
+        {
+            var exercise = await _exerciseService.Get1Exercise(exerciseId.Value);
+
+
+            return Json(exercise);
+        }
+
         [HttpPost]
         //[Route("CreateTraining/AddExercise/")]
-        public async Task<IActionResult> AddExercise(ExerciseViewModel exerciseViewModel)
+        public async Task<IActionResult> AddExercise([FromBody]ExerciseViewModel exerciseViewModel)
         {
+            
             if(ModelState.IsValid)
             {
-                var trainingId = await _exerciseService.AddExercise(exerciseViewModel);
-                return RedirectToAction("CreateTraining", new { trainingId });
+                var TrainingNumber = await _exerciseService.AddExercise(exerciseViewModel);
+                return RedirectToAction("CreateTraining", new { TrainingNumber });
             }
                  
             return View(exerciseViewModel);

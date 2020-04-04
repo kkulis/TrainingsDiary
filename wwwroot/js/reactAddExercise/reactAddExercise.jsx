@@ -5,9 +5,18 @@ class AddExercise extends React.Component {
     this.state = {
       numOfSeries: 0,
       series: [],
+      dataGet: null,
       data: []
     }
   }
+
+
+  componentDidMount() {
+    fetch(exerciseUrl)
+    .then(response => response.json())
+    .then(dataGet => this.setState({dataGet}));
+  }
+
 
   onPlusClick = () => {
     console.log("+ click!");
@@ -34,9 +43,14 @@ class AddExercise extends React.Component {
 
   onSubmitSeriesClick = (serie) => {
     console.log("submit addex");
-    this.state.data.push('reps', serie.reps);
-    this.state.data.push('weight', serie.weight);
- 
+    var serieObj = {
+      reps: serie.reps,
+      weight: serie.weight
+    };
+    this.state.data.push(serieObj);
+    //this.state.data.push('reps', serie.reps);
+    //this.state.data.push('weight', serie.weight);
+
   }
 
   onSubmitClick = () => {
@@ -50,13 +64,13 @@ class AddExercise extends React.Component {
       },
       body: JSON.stringify(data),
     })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Succes", data);
-    })
-    .catch((error) =>{
-      console.error('error', error);
-    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Succes", data);
+      })
+      .catch((error) => {
+        console.error('error', error);
+      })
 
   }
 
@@ -79,6 +93,7 @@ class AddExercise extends React.Component {
 
     return (
       <div>
+        {/* <Name data={this.state.dataGet} /> */}
         <label htmlFor="numberofSeries">Number of Series</label>
         <div className="input-group">
           <InputNumber numOfSeries={this.state.numOfSeries} />
@@ -98,6 +113,15 @@ class AddExercise extends React.Component {
 
       </div>
     );
+  }
+}
+
+class Name extends React.Component {
+  render() {
+    return (
+      <h1>{this.props.dataGet.Name}</h1>
+    );
+
   }
 }
 
@@ -261,7 +285,7 @@ class NewSeries extends React.Component {
           </div>
         </div>
         <div classNane="col">
-          <label>Add Series</label>
+          <label>--</label>
           <div className="input-group">
             <SubmitSeriesButton onSubmitClick={this.onSubmitClick} />
           </div>
@@ -281,7 +305,7 @@ class SubmitSeriesButton extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn btn-success" type = "submit" value="Post" onClick={this.onSubmitClick}>Add</button>
+        <button className="btn btn-success" type="submit" value="Post" onClick={this.onSubmitClick}>Add</button>
       </div>
     )
   }
@@ -378,6 +402,6 @@ class RemoveRepsButton extends React.Component {
 
 
 ReactDOM.render(
-  <AddExercise />, 
+  <AddExercise url={exerciseUrl} pollInterval={2000} />,
   document.getElementById('AddExerciseContainer')
-  );
+);

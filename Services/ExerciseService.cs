@@ -14,12 +14,12 @@ namespace TrainingDiary.Services
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IMapper _mapper;
-  
+
         public ExerciseService(ApplicationDbContext applicationDbContext, IMapper mapper)
         {
             _applicationDbContext = applicationDbContext;
             _mapper = mapper;
-            
+
         }
 
         public async Task<IList<ExerciseViewModel>> GetExercises(string searchString)
@@ -39,7 +39,7 @@ namespace TrainingDiary.Services
 
         public async Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId)
         {
-            var exercise = await _applicationDbContext.TrainingExercises.Include(e => e.Exercise).FirstOrDefaultAsync(e => e.Id == exerciseId);
+            var exercise = await _applicationDbContext.TrainingExercises.Include(e => e.Exercise).FirstOrDefaultAsync(e => e.Id == exerciseId); 
             return _mapper.Map<ExerciseViewModel>(exercise);
         }
 
@@ -67,17 +67,13 @@ namespace TrainingDiary.Services
                 });
             }
 
-            exercise.Series = series;
-
-            _applicationDbContext.TrainingExercises.Update(exercise);
+            _applicationDbContext.Series.AddRange(series);
             await _applicationDbContext.SaveChangesAsync();
+
 
             int trainingNumber = training.TrainingNumber;
 
             return trainingNumber;
-            
-
-           
 
         }
 

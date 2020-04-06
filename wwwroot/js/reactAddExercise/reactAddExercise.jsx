@@ -6,8 +6,9 @@ class AddExercise extends React.Component {
       numOfSeries: 0,
       series: [],
       dataGet: null,
-      data: []
+      data: [],
     }
+
   }
 
 
@@ -54,10 +55,20 @@ class AddExercise extends React.Component {
   }
 
   onSubmitClick = () => {
-    console.log("Submit all click");
-    const data = this.state.data;
 
-    fetch('/Training/AddExercise', {
+    var exerciseId = this.state.dataGet.id;
+    var trainingId = this.state.dataGet.trainingId;
+
+    var dataObj = {
+      id: exerciseId,
+      trainingId: trainingId,
+      seriesViewModels: this.state.data
+    }
+
+    console.log("Submit all click");
+    const data = dataObj
+
+    fetch(exercisePostUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -71,6 +82,10 @@ class AddExercise extends React.Component {
       .catch((error) => {
         console.error('error', error);
       })
+
+      window.location.replace(redirectUrl);
+
+
 
   }
 
@@ -89,11 +104,14 @@ class AddExercise extends React.Component {
         onSubmitSeriesClick={this.onSubmitSeriesClick}
         value={serie}
       />
+
     ));
 
+
+    
     return (
       <div>
-        {/* <Name data={this.state.dataGet} /> */}
+        <h2>{this.state.dataGet? this.state.dataGet.name: ""}</h2>
         <label htmlFor="numberofSeries">Number of Series</label>
         <div className="input-group">
           <InputNumber numOfSeries={this.state.numOfSeries} />
@@ -116,14 +134,23 @@ class AddExercise extends React.Component {
   }
 }
 
-class Name extends React.Component {
-  render() {
-    return (
-      <h1>{this.props.dataGet.Name}</h1>
-    );
+// class Name extends React.Component {
+//   constructor(props) {
+//     super(props)
+//     this.state = {
+//       dataGet: props.dataGet
+//     }
+//   }
+//   render() {
+//    // const name = this.props.dataGet.name;
+//     return(
+//       <h2>{this.props.dataGet.name}</h2>
+//     )
 
-  }
-}
+//   }
+
+// }
+
 
 class SubmitButton extends React.Component {
   constructor(props) {
@@ -402,6 +429,7 @@ class RemoveRepsButton extends React.Component {
 
 
 ReactDOM.render(
-  <AddExercise url={exerciseUrl} pollInterval={2000} />,
+  <AddExercise url={exerciseUrl} postUrl={exercisePostUrl}
+   redirectUrl ={redirectUrl} pollInterval={2000}/>,
   document.getElementById('AddExerciseContainer')
 );

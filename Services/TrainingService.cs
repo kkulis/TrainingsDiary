@@ -97,6 +97,12 @@ namespace TrainingDiary.Services
             return _mapper.Map<CreateTrainingViewModel>(training);
         }
 
+        public async Task<int> GetTrainingNumber(Guid trainingId)
+        {
+            var training = await _applicationDbContext.Trainings.FirstOrDefaultAsync(t => t.Id == trainingId);
+
+            return training.TrainingNumber;
+        }
 
 
     }
@@ -106,7 +112,7 @@ namespace TrainingDiary.Services
         Task<int> AddTraining(CreateTrainingViewModel createTrainingView);
         Task<Guid> AddExercise(CreateTrainingViewModel createTrainingViewModel);
         Task<CreateTrainingViewModel> GetTraining(int trainingId);
-
+        Task<int> GetTrainingNumber(Guid trainingId);
 
     }
 }

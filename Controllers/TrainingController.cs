@@ -67,6 +67,11 @@ namespace TrainingDiary.Controllers
         {
             var exercise = await _exerciseService.Get1Exercise(exerciseId.Value);
 
+            var trainingId = exercise.TrainingId;
+
+            int trainingNumber = await _trainingService.GetTrainingNumber(trainingId);
+
+            ViewBag.TrainingNumber = trainingNumber;
 
             return View(exercise);
            
@@ -82,7 +87,7 @@ namespace TrainingDiary.Controllers
 
         [HttpPost]
         //[Route("CreateTraining/AddExercise/")]
-        public async Task<IActionResult> AddExercise([FromBody]ExerciseViewModel exerciseViewModel)
+        public async Task<IActionResult> PostExercise([FromBody] ExerciseViewModel exerciseViewModel)
         {
             
             if(ModelState.IsValid)

@@ -41,28 +41,6 @@ namespace TrainingDiary.Services
             return trainingFromDb.Entity.TrainingNumber;
         }
 
-        //public async Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel)
-        //{
-        //    var trainingId = Guid.NewGuid();
-
-        //    var training = new Training
-        //    {
-        //        Id = trainingId,
-        //        TrainingStart = createTrainingViewModel.TrainingStart,
-        //        TrainingEnd = createTrainingViewModel.TrainingEnd,
-        //        TrainingTime = await _timeCalculator.GetTrainingTime(createTrainingViewModel),
-        //    };
-
-        //    ICollection<ExerciseTraining> exerciseTrainings = new List<ExerciseTraining>();
-
-        //    training.ExerciseTraining = exerciseTrainings;
-
-        //    var orderFromDb = _applicationDbContext.Trainings.Add(training);
-        //    await _applicationDbContext.SaveChangesAsync();
-
-        //    return orderFromDb.Entity.TrainingNumber;
-        //}
-
         public async Task<Guid> AddExercise(CreateTrainingViewModel createTrainingViewModel)
         {
             int trainingNumber = createTrainingViewModel.TrainingNumber;
@@ -79,7 +57,7 @@ namespace TrainingDiary.Services
             {
                 Id = exerciseId,
                 ExerciseID = exerciseFromVm.Id,
-                TrainingId = trainingGuid
+                TrainingId = trainingGuid,
             };
 
             _applicationDbContext.TrainingExercises.Add(exercise);
@@ -92,7 +70,12 @@ namespace TrainingDiary.Services
 
         public async Task<CreateTrainingViewModel> GetTraining(int trainingId)
         {
-            var training = await _applicationDbContext.Trainings.FirstOrDefaultAsync(t => t.TrainingNumber == trainingId);
+            var training = await _applicationDbContext.Trainings.Include(t => t.ExerciseTraining)
+                                                                .ThenInclude(et => et.Series)
+                                                                .Include(et => et.ExerciseTraining)
+                                                                .ThenInclude(s => s.Exercise)
+                                                                .ThenInclude(c => c.Category)
+                                                                .FirstOrDefaultAsync(t => t.TrainingNumber == trainingId);
 
             return _mapper.Map<CreateTrainingViewModel>(training);
         }
@@ -103,7 +86,6 @@ namespace TrainingDiary.Services
 
             return training.TrainingNumber;
         }
-
 
     }
     public interface ITrainingService

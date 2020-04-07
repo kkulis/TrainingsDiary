@@ -2,21 +2,23 @@
 @{
     ViewData["Title"] = "CreateTraining";
 }
-    <div class="container">
-        <h2>Training nr: @Model.TrainingNumber</h2>
-        <h3>Add Exercises</h3>
+<div class="container">
+    <h3>Training nr: @Model.TrainingNumber</h3>
+    <h4>Add Exercises</h4>
+    <h5>Training length: @Model.TrainigTime</h5>
+    
 
-        <form asp-controller="Training" asp-action="CreateTraining" method="get">
-            @Html.HiddenFor(t => t.TrainingNumber)
-            <div class="input-group">
-                <input type="text" class="form-control" name="searchString" placeholder="search name">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+    <form asp-controller="Training" asp-action="CreateTraining" method="get">
+        @Html.HiddenFor(t => t.TrainingNumber)
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchString" placeholder="search name">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
 
-                </div>
             </div>
+        </div>
 
-        </form>
+    </form>
     <form asp-controller="Training" asp-action="CreateTraining" method="post">
         @Html.HiddenFor(t => t.TrainingNumber)
         <table class="table">
@@ -42,6 +44,30 @@
 
         </table>
     </form>
-    </div>
+
+    <h3>Done Exercises</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Name</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doneExercise in Model.DoneExerciseViewModels)
+            {
+                <tr>
+                    <td>@doneExercise.Category.Name</td>
+                    <td>@doneExercise.Name</td>
+                    <td><a class="btn btn-dark" asp-controller="Training" asp-action="ExerciseDetails" asp-route-exerciseId ="@doneExercise.Id">Details</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary text-center" asp-controller="Home" asp-action="Index">Finish</a>
+</div>
 
 

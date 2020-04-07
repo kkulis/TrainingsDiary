@@ -43,11 +43,12 @@ namespace TrainingDiary.Controllers
             var exercises = await _exerciseService.GetExercises(searchString);
             var training = await _trainingService.GetTraining(TrainingNumber);
 
-                return View(new CreateTrainingViewModel()
-                {
-                    TrainingNumber = training.TrainingNumber,
-                    ExerciseViewModels = exercises
-                });;      
+            return View(new CreateTrainingViewModel()
+            {
+                TrainingNumber = training.TrainingNumber,
+                ExerciseViewModels = exercises,
+                DoneExerciseViewModels = training.DoneExerciseViewModels
+            }) ;  
         }
 
         [HttpPost]
@@ -98,6 +99,20 @@ namespace TrainingDiary.Controllers
                  
             return View(exerciseViewModel);
             
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExerciseDetails(Guid exerciseId)
+        {
+            var exercise = await _exerciseService.Get1Exercise(exerciseId);
+
+            var trainingId = exercise.TrainingId;
+
+            int trainingNumber = await _trainingService.GetTrainingNumber(trainingId);
+
+            ViewBag.TrainingNumber = trainingNumber;
+
+            return View(exercise);
         }
     }
 }

@@ -80,6 +80,15 @@ namespace TrainingDiary.Services
 
         }
 
+        public async Task<Guid> DeleteExercise(Guid exerciseId)
+        {
+            var exercise = await _applicationDbContext.TrainingExercises.FirstOrDefaultAsync(e => e.Id == exerciseId);
+
+            _applicationDbContext.TrainingExercises.Remove(exercise);
+            await _applicationDbContext.SaveChangesAsync();
+
+            return exercise.TrainingId;
+        }
 
 
     }
@@ -89,5 +98,6 @@ namespace TrainingDiary.Services
         Task<IList<ExerciseViewModel>> GetExercises(string searchString);
         Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
         Task<int> AddExercise(ExerciseViewModel exerciseViewModel);
+        Task<Guid> DeleteExercise(Guid exerciseId);
     }
 }

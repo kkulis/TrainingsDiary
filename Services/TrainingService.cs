@@ -41,9 +41,9 @@ namespace TrainingDiary.Services
             return trainingFromDb.Entity.TrainingNumber;
         }
 
-        public async Task<Guid> AddExercise(CreateTrainingViewModel createTrainingViewModel)
+        public async Task<Guid> AddExercise(CreateTrainingAddExerciseViewModel createTrainingAddExerciseViewModel)
         {
-            int trainingNumber = createTrainingViewModel.TrainingNumber;
+            int trainingNumber = createTrainingAddExerciseViewModel.trainingNumber;
 
             var training = await _applicationDbContext.Trainings.Include(t => t.ExerciseTraining).FirstOrDefaultAsync(t => t.TrainingNumber == trainingNumber);
 
@@ -51,12 +51,12 @@ namespace TrainingDiary.Services
 
             var exerciseId = Guid.NewGuid();
 
-            var exerciseFromVm = createTrainingViewModel.ExerciseViewModels.First();
+            var exerciseFromVm = createTrainingAddExerciseViewModel.ExerciseId;
 
             var exercise = new ExerciseTraining
             {
                 Id = exerciseId,
-                ExerciseID = exerciseFromVm.Id,
+                ExerciseID = exerciseFromVm,
                 TrainingId = trainingGuid,
             };
 
@@ -92,7 +92,7 @@ namespace TrainingDiary.Services
     {
         //Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel);
         Task<int> AddTraining(CreateTrainingViewModel createTrainingView);
-        Task<Guid> AddExercise(CreateTrainingViewModel createTrainingViewModel);
+        Task<Guid> AddExercise(CreateTrainingAddExerciseViewModel createTrainingAddExerciseViewModel);
         Task<CreateTrainingViewModel> GetTraining(int trainingId);
         Task<int> GetTrainingNumber(Guid trainingId);
 

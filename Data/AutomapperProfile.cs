@@ -19,7 +19,7 @@ namespace TrainingDiary.Data
                 .ForMember(ctv => ctv.DoneExerciseViewModels, opt => opt.MapFrom(src=>src.ExerciseTraining))
                 .ReverseMap();
             CreateMap<ExerciseTraining, ExerciseViewModel>()
-               // .ForMember(et => et.Name, opt => opt.MapFrom(src => src.Exercise.Name))
+                .ForMember(et => et.Name, opt => opt.MapFrom(src => src.Exercise.Name))
                 .ForMember(et => et.Category, opt => opt.MapFrom(src => src.Exercise.Category))
                 .ForMember(et => et.SeriesViewModels, opt => opt.MapFrom(src => src.Series))
                 .ReverseMap();

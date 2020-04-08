@@ -46,21 +46,22 @@ namespace TrainingDiary.Controllers
             return View(new CreateTrainingViewModel()
             {
                 TrainingNumber = training.TrainingNumber,
+                TrainigTime = training.TrainigTime,
                 ExerciseViewModels = exercises,
                 DoneExerciseViewModels = training.DoneExerciseViewModels
-            }) ;  
+            });
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTraining(CreateTrainingViewModel createTrainingViewModel)
+        public async Task<IActionResult> CreateTraining(CreateTrainingAddExerciseViewModel createTrainingAddExerciseViewModel)
         {
             if (ModelState.IsValid)
             {
-                var exerciseId = await _trainingService.AddExercise(createTrainingViewModel);
+                var exerciseId = await _trainingService.AddExercise(createTrainingAddExerciseViewModel);
                 return RedirectToAction("AddExercise", new { exerciseId });
             }
 
-            return View(createTrainingViewModel);
+            return View(createTrainingAddExerciseViewModel);
         }
 
 
@@ -75,7 +76,7 @@ namespace TrainingDiary.Controllers
             ViewBag.TrainingNumber = trainingNumber;
 
             return View(exercise);
-           
+
         }
 
         public async Task<IActionResult> GetExercise(Guid? exerciseId)
@@ -90,15 +91,15 @@ namespace TrainingDiary.Controllers
         //[Route("CreateTraining/AddExercise/")]
         public async Task<IActionResult> PostExercise([FromBody] ExerciseViewModel exerciseViewModel)
         {
-            
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 var TrainingNumber = await _exerciseService.AddExercise(exerciseViewModel);
                 return RedirectToAction("CreateTraining", new { TrainingNumber });
             }
-                 
+
             return View(exerciseViewModel);
-            
+
         }
 
         [HttpGet]
@@ -113,6 +114,27 @@ namespace TrainingDiary.Controllers
             ViewBag.TrainingNumber = trainingNumber;
 
             return View(exercise);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteExercise(Guid? exerciseId)
+        {
+            var exercise = await _exerciseService.Get1Exercise(exerciseId);
+
+            return View(exercise);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteExercise(ExerciseViewModel exerciseViewModel)
+        {
+            var exerciseId = exerciseViewModel.Id;
+
+            var trainingId = await _exerciseService.DeleteExercise(exerciseId);
+
+            int trainingNumber = await _trainingService.GetTrainingNumber(trainingId);
+
+
+            return RedirectToAction("CreateTraining", new { trainingNumber });
         }
     }
 }

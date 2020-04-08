@@ -3,10 +3,19 @@
     ViewData["Title"] = "CreateTraining";
 }
 <div class="container">
-    <h3>Training nr: @Model.TrainingNumber</h3>
-    <h4>Add Exercises</h4>
-    <h5>Training length: @Model.TrainigTime</h5>
-    
+    <div class="row">
+        <div class="col">
+            <h5>Training nr: @Model.TrainingNumber</h5>
+        </div>
+        <div class="col">
+            <h5>Training length: @Model.TrainigTime</h5>
+        </div>
+    </div>
+    <div class="row">
+        <h3 class="text-center">Add Exercises</h3>
+    </div>
+
+
 
     <form asp-controller="Training" asp-action="CreateTraining" method="get">
         @Html.HiddenFor(t => t.TrainingNumber)
@@ -19,31 +28,40 @@
         </div>
 
     </form>
-    <form asp-controller="Training" asp-action="CreateTraining" method="post">
-        @Html.HiddenFor(t => t.TrainingNumber)
-        <table class="table">
-            <thead>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Name</th>
+                <th scope="col">Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ExerciseViewModels.Count(); i++)
+            {
+
+
                 <tr>
-                    <th scope="col">Category</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Add</th>
+                    <td>@Model.ExerciseViewModels[i].Category.Name</td>
+                    <td>@Model.ExerciseViewModels[i].Name</td>
+                    <td>
+                        <form asp-controller="Training" asp-action="CreateTraining" method="post">
+                            @Html.HiddenFor(t => t.TrainingNumber)
+                            <input data-val="true" data-val-required="The Id field is required" id="ExerciseId"
+                                name="ExerciseId" type="hidden" value="@Model.ExerciseViewModels[i].Id"/>
+                            <input class="btn btn-primary" type="submit" value="Add" />
+                        </form>
+                    </td>
+
                 </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.ExerciseViewModels.Count(); i++)
-                {
-                    <tr>
-                        @Html.HiddenFor(exerciseName => Model.ExerciseViewModels[i].Id)
-                        <td>@Model.ExerciseViewModels[i].Category.Name</td>
-                        <td>@Model.ExerciseViewModels[i].Name</td>
-                        <td><input class="btn btn-primary" type="submit" value="Add" /></td>
-                    </tr>
-                }
+            }
 
-            </tbody>
+        </tbody>
 
-        </table>
-    </form>
+    </table>
+
 
     <h3>Done Exercises</h3>
 
@@ -58,16 +76,18 @@
         <tbody>
             @foreach (var doneExercise in Model.DoneExerciseViewModels)
             {
-                <tr>
-                    <td>@doneExercise.Category.Name</td>
-                    <td>@doneExercise.Name</td>
-                    <td><a class="btn btn-dark" asp-controller="Training" asp-action="ExerciseDetails" asp-route-exerciseId ="@doneExercise.Id">Details</a></td>
-                </tr>
+            <tr>
+                <td>@doneExercise.Category.Name</td>
+                <td>@doneExercise.Name</td>
+                <td><a class="btn btn-dark" asp-controller="Training" asp-action="ExerciseDetails" asp-route-exerciseId="@doneExercise.Id">Details</a></td>
+                <td><a class="btn btn-danger" asp-controller="Training" asp-action="DeleteExercise" asp-route-exerciseId="@doneExercise.Id">Remove</a></td>
+            </tr>
             }
         </tbody>
     </table>
 
     <a class="btn btn-primary text-center" asp-controller="Home" asp-action="Index">Finish</a>
 </div>
+
 
 

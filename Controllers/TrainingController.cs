@@ -133,7 +133,7 @@ namespace TrainingDiary.Controllers
 
             int trainingNumber = await _trainingService.GetTrainingNumber(trainingId);
 
-
+            TempData["Message"] = "Exercise Removed";
             return RedirectToAction("CreateTraining", new { trainingNumber });
         }
     }

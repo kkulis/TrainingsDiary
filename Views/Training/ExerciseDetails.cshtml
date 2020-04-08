@@ -3,30 +3,31 @@
     ViewData["Title"] = "Exercise Details";
 }
 
-
-<h2>@Model.Name</h2>
-<h3>@Model.Category.Name</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Number</th>
-            <th scope="col">Reps</th>
-            <th scope="col">Weight</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var serie in Model.SeriesViewModels)      
-        {
+<div class="container">
+    <h2>@Model.Name</h2>
+    <h3>@Model.Category.Name</h3>
+    <table class="table">
+        <thead>
             <tr>
-                <td>0</td>
-                <td>@serie.Reps</td>
-                <td>@serie.Weight kg</td>
+                <th scope="col">Number</th>
+                <th scope="col">Reps</th>
+                <th scope="col">Weight</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var serie in Model.SeriesViewModels)
+            {
+                <tr>
+                    <td>0</td>
+                    <td>@serie.Reps</td>
+                    <td>@serie.Weight kg</td>
+                </tr>
+            }
 
-    </tbody>
+        </tbody>
 
-</table>
-<div class="text-center">
-    <a class="btn btn-lg" asp-controller="Training" asp-action="CreateTraining" asp-route-TrainingNumber="@ViewBag.TrainingNumber">Back</a>
+    </table>
+    <div class="text-center">
+        <a class="btn btn-dark" asp-controller="Training" asp-action="CreateTraining" asp-route-TrainingNumber="@ViewBag.TrainingNumber">Back</a>
+    </div>
 </div>

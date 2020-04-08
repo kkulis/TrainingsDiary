@@ -3,35 +3,37 @@
     ViewData["Title"] = "Delete Exercise";
 }
 
-<h2>Delete</h2>
-<h3>Are You Sure?</h3>
-
-<h4>@Model.Name</h4>
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Number</th>
-            <th scope="col">Reps</th>
-            <th scope="col">Weight</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var serie in Model.SeriesViewModels)
-        {
+<div class="container">
+    <h2>Deleting</h2>
+    <p>Are You Sure?</p>
+    <h4>@Model.Name</h4>
+    <table class="table">
+        <thead>
             <tr>
-                <td>0</td>
-                <td>@serie.Reps</td>
-                <td>@serie.Weight kg</td>
+                <th scope="col">Number</th>
+                <th scope="col">Reps</th>
+                <th scope="col">Weight</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var serie in Model.SeriesViewModels)
+            {
+                <tr>
+                    <td>0</td>
+                    <td>@serie.Reps</td>
+                    <td>@serie.Weight kg</td>
+                </tr>
+            }
 
-    </tbody>
+        </tbody>
 
-</table>
-
-<form asp-action="DeleteExercise">
-    <div class="form-actions no-color">
-        @Html.HiddenFor(e => e.Id);
-        <input type="submit" value="Delete" class="btn btn-danger" /> 
+    </table>
+    <div class="text-center"
+    <form asp-action="DeleteExercise">
+        <div class="form-actions no-color">
+            @Html.HiddenFor(e => e.Id);
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    </form>
     </div>
-</form>
+</div>

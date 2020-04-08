@@ -11,9 +11,9 @@
             <h5>Training length: @Model.TrainigTime</h5>
         </div>
     </div>
-    <div class="row">
-        <h3 class="text-center">Add Exercises</h3>
-    </div>
+
+    <h3>Add Exercises</h3>
+
 
 
 
@@ -49,8 +49,7 @@
                     <td>
                         <form asp-controller="Training" asp-action="CreateTraining" method="post">
                             @Html.HiddenFor(t => t.TrainingNumber)
-                            <input data-val="true" data-val-required="The Id field is required" id="ExerciseId"
-                                name="ExerciseId" type="hidden" value="@Model.ExerciseViewModels[i].Id"/>
+                            <input name="ExerciseId" type="hidden" value="@Model.ExerciseViewModels[i].Id" />
                             <input class="btn btn-primary" type="submit" value="Add" />
                         </form>
                     </td>
@@ -63,7 +62,13 @@
     </table>
 
 
+
     <h3>Done Exercises</h3>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">@TempData["Message"]</div>
+    }
 
     <table class="table">
         <thead>
@@ -76,12 +81,12 @@
         <tbody>
             @foreach (var doneExercise in Model.DoneExerciseViewModels)
             {
-            <tr>
-                <td>@doneExercise.Category.Name</td>
-                <td>@doneExercise.Name</td>
-                <td><a class="btn btn-dark" asp-controller="Training" asp-action="ExerciseDetails" asp-route-exerciseId="@doneExercise.Id">Details</a></td>
-                <td><a class="btn btn-danger" asp-controller="Training" asp-action="DeleteExercise" asp-route-exerciseId="@doneExercise.Id">Remove</a></td>
-            </tr>
+                <tr>
+                    <td>@doneExercise.Category.Name</td>
+                    <td>@doneExercise.Name</td>
+                    <td><a class="btn btn-dark" asp-controller="Training" asp-action="ExerciseDetails" asp-route-exerciseId="@doneExercise.Id">Details</a></td>
+                    <td><a class="btn btn-danger" asp-controller="Training" asp-action="DeleteExercise" asp-route-exerciseId="@doneExercise.Id">Remove</a></td>
+                </tr>
             }
         </tbody>
     </table>

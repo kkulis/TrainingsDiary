@@ -46,6 +46,7 @@ namespace TrainingDiary
             services.AddTransient<IExerciseService, ExerciseService>();
             services.AddTransient<ITrainingService, TrainingService>();
             services.AddTransient<TimeCalculator>();
+            services.AddTransient<ISummaryService, SummaryService>();
             services.AddAutoMapper(typeof(Startup));
         }
 

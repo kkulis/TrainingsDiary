@@ -1,12 +1,11 @@
 ﻿@model TrainingDiary.Models.ViewModels.ExerciseViewModel
 @{
-    ViewData["Title"] = "Delete Exercise";
+    ViewData["Title"] = "Exercise Details";
 }
 
 <div class="container">
-    <h2>Deleting</h2>
-    <p>Are You Sure?</p>
     <h4>@Model.Name</h4>
+    <p>@Model.Category.Name</p>
     <table class="table">
         <thead>
             <tr>
@@ -29,11 +28,6 @@
 
     </table>
     <div class="text-center">
-    <form asp-action="DeleteExercise">
-        <div class="form-actions no-color">
-            @Html.HiddenFor(e => e.Id)
-            <input type="submit" value="Delete" class="btn btn-danger" />
-        </div>
-    </form>
+        <a class="btn btn-dark" asp-controller="Summary" asp-action="TrainingSummary" asp-route-TrainingNumber="@ViewBag.TrainingNumber">Back</a>
     </div>
 </div>

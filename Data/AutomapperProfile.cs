@@ -24,6 +24,10 @@ namespace TrainingDiary.Data
                 .ForMember(et => et.SeriesViewModels, opt => opt.MapFrom(src => src.Series))
                 .ReverseMap();
             CreateMap<Series, SeriesViewModel>().ReverseMap();
+            CreateMap<Training, TrainingSummaryViewModel>()
+                .ForMember(tsv => tsv.TrainigTime, opt => opt.MapFrom(src => src.TrainingTime))
+                .ForMember(tsv => tsv.DoneExerciseViewModels, opt => opt.MapFrom(src => src.ExerciseTraining))
+                .ReverseMap();
         }
 
     }

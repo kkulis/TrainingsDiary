@@ -26,6 +26,7 @@ namespace TrainingDiary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTraining(CreateTrainingViewModel createTrainingViewModel)
         {
             if (ModelState.IsValid)
@@ -53,6 +54,7 @@ namespace TrainingDiary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTraining(CreateTrainingAddExerciseViewModel createTrainingAddExerciseViewModel)
         {
             if (ModelState.IsValid)
@@ -125,6 +127,7 @@ namespace TrainingDiary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteExercise(ExerciseViewModel exerciseViewModel)
         {
             var exerciseId = exerciseViewModel.Id;

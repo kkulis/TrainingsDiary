@@ -87,6 +87,14 @@ namespace TrainingDiary.Services
             return training.TrainingNumber;
         }
 
+        public async Task DeleteTraining(int trainingNumber)
+        {
+            var training = await _applicationDbContext.Trainings.FirstOrDefaultAsync(t => t.TrainingNumber == trainingNumber);
+
+            _applicationDbContext.Trainings.Remove(training);
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
     }
     public interface ITrainingService
     {
@@ -95,6 +103,7 @@ namespace TrainingDiary.Services
         Task<Guid> AddExercise(CreateTrainingAddExerciseViewModel createTrainingAddExerciseViewModel);
         Task<CreateTrainingViewModel> GetTraining(int trainingId);
         Task<int> GetTrainingNumber(Guid trainingId);
+        Task DeleteTraining(int trainingNumber);
 
     }
 }

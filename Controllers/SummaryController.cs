@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TrainingDiary.Models.ViewModels;
 using TrainingDiary.Services;
 
 namespace TrainingDiary.Controllers
@@ -38,5 +39,34 @@ namespace TrainingDiary.Controllers
 
             return View(exercise);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AllTrainings()
+        {
+            var trainings = await _summaryService.GetAllTrainings();
+            return View(trainings);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteTraining(int trainingNumber)
+        {
+            var training = await _summaryService.GetDoneTraining(trainingNumber);
+            return View(training);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteTraining(TrainingSummaryViewModel trainingSummaryViewModel)
+        {
+            var trainingNumber = trainingSummaryViewModel.TrainingNumber;
+
+            await _trainingService.DeleteTraining(trainingNumber);
+
+            TempData["Message"] = "Training Removed";
+            return RedirectToAction("AllTrainings");
+        }
+
+
     }
 }

@@ -1,0 +1,48 @@
+﻿@model TrainingDiary.Models.ViewModels.TrainingSummaryViewModel
+@{
+    ViewData["Title"] = "Delete Training";
+}
+
+    <div class="container">
+        <h6>Training number: @Model.TrainingNumber</h6>
+
+        <div class="row">
+            <div class="col">
+                <p>Training Start: @Model.TrainingStart</p>
+            </div>
+            <div class="col">
+                <p>Training End: @Model.TrainingEnd</p>
+            </div>
+            <div class="col">
+                <p>Training Time: @Model.TrainigTime</p>
+            </div>
+        </div>
+        <h3>Done Exercises</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doneExercise in Model.DoneExerciseViewModels)
+                {
+                    <tr>
+                        <td>@doneExercise.Category.Name</td>
+                        <td>@doneExercise.Name</td>
+                        <td><a class="btn btn-dark" asp-controller="Summary" asp-action="ExerciseDetails" asp-route-exerciseId="@doneExercise.Id">Details</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center">
+            <form asp-action="DeleteTraining">
+                <div class="form-actions no-color">
+                    @Html.HiddenFor(t => t.TrainingNumber)
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </div>
+            </form>
+        </div>
+    </div>

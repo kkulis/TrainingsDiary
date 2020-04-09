@@ -12,6 +12,7 @@ namespace TrainingDiary.Services
     public interface ISummaryService
     {
         public Task<TrainingSummaryViewModel> GetDoneTraining(int trainingNumber);
+        public Task<AllTrainingsViewModel> GetAllTrainings();
     }
     public class SummaryService : ISummaryService
     {
@@ -33,6 +34,23 @@ namespace TrainingDiary.Services
                                                                 .FirstOrDefaultAsync(t => t.TrainingNumber == trainingNumber);
 
             return _mapper.Map<TrainingSummaryViewModel>(training);
+        }
+
+        public async Task<AllTrainingsViewModel> GetAllTrainings()
+        {
+            var allTrainings =  _applicationDbContext.Trainings
+                .OrderByDescending(t => t.TrainingNumber)
+                .ToList();
+            var trainigsNumber = _applicationDbContext.Trainings.Count();
+
+            var allTrainingsMapped = _mapper.Map<IEnumerable<TrainingSummaryViewModel>>(allTrainings);
+
+            return new AllTrainingsViewModel()
+            {
+                Trainings = allTrainingsMapped,
+                TrainingsNumber = trainigsNumber
+
+            };
         }
     }
 }

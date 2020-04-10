@@ -13,7 +13,8 @@ namespace TrainingDiary.Data
         public AutomapperProfile()
         {
             CreateMap<Exercise, ExerciseViewModel>().ReverseMap();
-            CreateMap<Category, CategoryViewModel>().ReverseMap();
+            CreateMap<Category, CategoryViewModel>()
+                .ReverseMap();
             CreateMap<Training, CreateTrainingViewModel>()
                 .ForMember(ctv => ctv.TrainigTime, opt => opt.MapFrom(src => src.TrainingTime))
                 .ForMember(ctv => ctv.DoneExerciseViewModels, opt => opt.MapFrom(src=>src.ExerciseTraining))
@@ -28,6 +29,10 @@ namespace TrainingDiary.Data
                 .ForMember(tsv => tsv.TrainigTime, opt => opt.MapFrom(src => src.TrainingTime))
                 .ForMember(tsv => tsv.DoneExerciseViewModels, opt => opt.MapFrom(src => src.ExerciseTraining))
                 .ReverseMap();
+            CreateMap<Exercise, ExerciseCollectionViewModel>()
+                .ReverseMap();
+
+
         }
 
     }

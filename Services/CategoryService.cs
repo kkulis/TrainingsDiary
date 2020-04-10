@@ -18,14 +18,15 @@ namespace TrainingDiary.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public CategoryService(ApplicationDbContext dbContext)
+        public CategoryService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<CategoryViewModel>> GetCategories()
         {
-            var categories = _dbContext.Categories;
+            var categories = _dbContext.Categories.ToList();
             var result = _mapper.Map<IEnumerable<CategoryViewModel>>(categories);
             return result;
         }

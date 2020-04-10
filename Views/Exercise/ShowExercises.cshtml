@@ -1,0 +1,29 @@
+﻿@model TrainingDiary.Models.ViewModels.AllExercisesViewModel
+@{
+    ViewData["Title"] = "Show Exercises";
+}
+
+<div class="container">
+    <h5>All Exercises</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exercise in Model.ExerciseViewModels)
+            {
+                <tr>
+                    <td>@exercise.Name</td>
+                    <td>@exercise.Category.Name</td>
+                    <td><a class="btn btn-dark" asp-controller="Exercise" asp-action="EditExercise" asp-route-exerciseId="@exercise.Id">Edit</a></td>
+                    <td><a class="btn btn-outline-info" asp-controller="Exercise" asp-action="DeleteExercise" asp-route-exerciseId="@exercise.Id">Remove Exercise</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

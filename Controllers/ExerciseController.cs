@@ -79,7 +79,7 @@ namespace TrainingDiary.Controllers
         [HttpPost]
         public async Task<IActionResult> EditExercise(AddExerciseViewModel addExerciseViewModel)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 await _exerciseCollectionService.EditExercise(addExerciseViewModel);
                 return RedirectToAction("ShowExercises");
@@ -92,6 +92,30 @@ namespace TrainingDiary.Controllers
             });
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteExercise(Guid exerciseId)
+        {
+            var exercise = await _exerciseCollectionService.GetExercise(exerciseId);
+
+            return View(new AddExerciseViewModel()
+            {
+                Id = exercise.Id,
+                Name = exercise.Name,
+                Category = exercise.Category
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteExercise(AddExerciseViewModel addExerciseViewModel)
+        {
+            var exerciseId = addExerciseViewModel.Id;
+            await _exerciseCollectionService.DeleteExercise(exerciseId);
+            return RedirectToAction("ShowExercises");
+        }
+
+        
 
 
     }

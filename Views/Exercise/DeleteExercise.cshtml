@@ -1,0 +1,36 @@
+﻿@model TrainingDiary.Models.ViewModels.AddExerciseViewModel
+@{
+    ViewData["Title"] = "Delere Exercise";
+}
+
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                <td>@Model.Name</td>
+                <td>@Model.Category.Name</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+    <h5>You sure?</h5>
+    <div class="text-center">
+        <form asp-action="DeleteExercise">
+            <div class="form-actions no-color">
+                @Html.HiddenFor(e => e.Id)
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>

@@ -16,6 +16,7 @@ namespace TrainingDiary.Services
         public Task AddExercise(AddExerciseViewModel addExerciseViewModel);
         public Task<AddExerciseViewModel> GetExercise(Guid exerciseId);
         public Task EditExercise(AddExerciseViewModel addExerciseViewModel);
+        public Task DeleteExercise(Guid exerciseId);
     }
     public class ExerciseCollectionService :IexerciseCollectionService
     {
@@ -66,6 +67,14 @@ namespace TrainingDiary.Services
         {
             var exercise = _mapper.Map<Exercise>(addExerciseViewModel);
             _applicationDbContext.Entry(await _applicationDbContext.Exercises.FirstAsync(e => e.Id == addExerciseViewModel.Id)).CurrentValues.SetValues(exercise);
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteExercise(Guid exerciseId)
+        {
+            var exercise = await _applicationDbContext.Exercises.FirstAsync(e => e.Id == exerciseId);
+
+            _applicationDbContext.Remove(exercise);
             await _applicationDbContext.SaveChangesAsync();
         }
 

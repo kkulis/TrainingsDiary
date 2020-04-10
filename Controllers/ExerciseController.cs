@@ -58,6 +58,41 @@ namespace TrainingDiary.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditExercise(Guid exerciseId)
+        {
+            var exercise = await _exerciseCollectionService.GetExercise(exerciseId);
+
+            var categories = await _categoryService.GetCategories();
+
+            var categoriesSelectList = new SelectList(categories, "Id", "Name");
+
+            return View(new AddExerciseViewModel()
+            {
+                Id = exercise.Id,
+                Name = exercise.Name,
+                Categories = categoriesSelectList,
+                Category = exercise.Category
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditExercise(AddExerciseViewModel addExerciseViewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                await _exerciseCollectionService.EditExercise(addExerciseViewModel);
+                return RedirectToAction("ShowExercises");
+            }
+
+            var categories = new SelectList(await _categoryService.GetCategories(), "Id", "Name");
+            return View(new AddExerciseViewModel()
+            {
+                Categories = categories
+            });
+
+        }
+
 
     }
 }

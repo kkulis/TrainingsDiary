@@ -38,8 +38,11 @@
             </tbody>
         </table>
         <div class="text-center">
+
+            <a class="btn btn-dark text-center" asp-controller="Summary" asp-action="AllTrainings">Back</a>
+
             <form asp-action="DeleteTraining">
-                <div class="form-actions no-color">
+                <div class="form-actions no-color text-center">
                     @Html.HiddenFor(t => t.TrainingNumber)
                     <input type="submit" value="Delete" class="btn btn-danger" />
                 </div>

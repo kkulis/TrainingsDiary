@@ -8,6 +8,7 @@ namespace TrainingDiary.Models.ViewModels
 {
     public class AddExerciseViewModel
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public CategoryViewModel Category { get; set; }
         public SelectList Categories { get; set; }

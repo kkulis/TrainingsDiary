@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrainingDiary.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -79,15 +79,13 @@ namespace TrainingDiary.Migrations
                 name: "TrainingExercises",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(nullable: false),
                     ExerciseID = table.Column<Guid>(nullable: false),
-                    TrainingId = table.Column<Guid>(nullable: false),
-                    Series = table.Column<int>(nullable: false),
-                    Reps = table.Column<int>(nullable: false),
-                    Weight = table.Column<float>(nullable: false)
+                    TrainingId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TrainingExercises", x => new { x.TrainingId, x.ExerciseID });
+                    table.PrimaryKey("PK_TrainingExercises", x => x.Id);
                     table.ForeignKey(
                         name: "FK_TrainingExercises_Exercises_ExerciseID",
                         column: x => x.ExerciseID,
@@ -98,6 +96,26 @@ namespace TrainingDiary.Migrations
                         name: "FK_TrainingExercises_Trainings_TrainingId",
                         column: x => x.TrainingId,
                         principalTable: "Trainings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Series",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Reps = table.Column<int>(nullable: false),
+                    Weight = table.Column<float>(nullable: false),
+                    ExerciseTrainingId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Series", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Series_TrainingExercises_ExerciseTrainingId",
+                        column: x => x.ExerciseTrainingId,
+                        principalTable: "TrainingExercises",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -131,8 +149,13 @@ namespace TrainingDiary.Migrations
 
             migrationBuilder.InsertData(
                 table: "TrainingExercises",
-                columns: new[] { "TrainingId", "ExerciseID", "Reps", "Series", "Weight" },
-                values: new object[] { new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"), new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), 12, 4, 60f });
+                columns: new[] { "Id", "ExerciseID", "TrainingId" },
+                values: new object[] { new Guid("94f9ca0f-2d3c-4c10-98b4-9f81ac9ee7c3"), new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5") });
+
+            migrationBuilder.InsertData(
+                table: "Series",
+                columns: new[] { "Id", "ExerciseTrainingId", "Reps", "Weight" },
+                values: new object[] { new Guid("2573adeb-2aaa-43a6-830a-baecb6586a4d"), new Guid("94f9ca0f-2d3c-4c10-98b4-9f81ac9ee7c3"), 12, 60f });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exercises_CategoryId",
@@ -140,9 +163,19 @@ namespace TrainingDiary.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Series_ExerciseTrainingId",
+                table: "Series",
+                column: "ExerciseTrainingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TrainingExercises_ExerciseID",
                 table: "TrainingExercises",
                 column: "ExerciseID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingExercises_TrainingId",
+                table: "TrainingExercises",
+                column: "TrainingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trainings_UserId",
@@ -152,6 +185,9 @@ namespace TrainingDiary.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Series");
+
             migrationBuilder.DropTable(
                 name: "TrainingExercises");
 

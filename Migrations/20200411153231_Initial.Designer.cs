@@ -10,8 +10,8 @@ using TrainingDiary.Data;
 namespace TrainingDiary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200305211138_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200411153231_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,34 +105,60 @@ namespace TrainingDiary.Migrations
 
             modelBuilder.Entity("TrainingDiary.Data.POCO.ExerciseTraining", b =>
                 {
-                    b.Property<Guid>("TrainingId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ExerciseID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
+                    b.Property<Guid>("TrainingId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Series")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Weight")
-                        .HasColumnType("real");
-
-                    b.HasKey("TrainingId", "ExerciseID");
+                    b.HasKey("Id");
 
                     b.HasIndex("ExerciseID");
+
+                    b.HasIndex("TrainingId");
 
                     b.ToTable("TrainingExercises");
 
                     b.HasData(
                         new
                         {
-                            TrainingId = new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"),
+                            Id = new Guid("94f9ca0f-2d3c-4c10-98b4-9f81ac9ee7c3"),
                             ExerciseID = new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"),
+                            TrainingId = new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5")
+                        });
+                });
+
+            modelBuilder.Entity("TrainingDiary.Data.POCO.Series", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExerciseTrainingId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseTrainingId");
+
+                    b.ToTable("Series");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2573adeb-2aaa-43a6-830a-baecb6586a4d"),
+                            ExerciseTrainingId = new Guid("94f9ca0f-2d3c-4c10-98b4-9f81ac9ee7c3"),
                             Reps = 12,
-                            Series = 4,
                             Weight = 60f
                         });
                 });
@@ -216,6 +242,15 @@ namespace TrainingDiary.Migrations
                     b.HasOne("TrainingDiary.Data.POCO.Training", "Training")
                         .WithMany("ExerciseTraining")
                         .HasForeignKey("TrainingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TrainingDiary.Data.POCO.Series", b =>
+                {
+                    b.HasOne("TrainingDiary.Data.POCO.ExerciseTraining", "ExerciseTraining")
+                        .WithMany("Series")
+                        .HasForeignKey("ExerciseTrainingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Http;
 using JavaScriptEngineSwitcher.V8;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using React.AspNet;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace TrainingDiary
 {
@@ -31,7 +33,7 @@ namespace TrainingDiary
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(o => o.Filters.Add(new AuthorizeFilter()));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
 
@@ -42,6 +44,9 @@ namespace TrainingDiary
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ApplicationDbContext")));
 
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
             //DI
             services.AddTransient<IExerciseService, ExerciseService>();
             services.AddTransient<ITrainingService, TrainingService>();
@@ -49,6 +54,7 @@ namespace TrainingDiary
             services.AddTransient<ISummaryService, SummaryService>();
             services.AddTransient<IexerciseCollectionService, ExerciseCollectionService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddAutoMapper(typeof(Startup));
         }
 
@@ -89,6 +95,7 @@ namespace TrainingDiary
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

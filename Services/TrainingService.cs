@@ -23,12 +23,13 @@ namespace TrainingDiary.Services
             _mapper = mapper;
         }
 
-        public async Task<int> AddTraining(CreateTrainingViewModel createTrainingViewModel)
+        public async Task<int> AddTraining(CreateTrainingViewModel createTrainingViewModel, string userId)
         {
             var trainingId = Guid.NewGuid();
             
             var training = new Training
             {
+                UserId = userId,
                 Id = trainingId,
                 TrainingStart = createTrainingViewModel.TrainingStart,
                 TrainingEnd = createTrainingViewModel.TrainingEnd,
@@ -99,7 +100,7 @@ namespace TrainingDiary.Services
     public interface ITrainingService
     {
         //Task<int> CreateTraining(CreateTrainingViewModel createTrainingViewModel);
-        Task<int> AddTraining(CreateTrainingViewModel createTrainingView);
+        Task<int> AddTraining(CreateTrainingViewModel createTrainingView, string userId);
         Task<Guid> AddExercise(CreateTrainingAddExerciseViewModel createTrainingAddExerciseViewModel);
         Task<CreateTrainingViewModel> GetTraining(int trainingId);
         Task<int> GetTrainingNumber(Guid trainingId);

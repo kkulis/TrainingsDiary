@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TrainingDiary.Data.POCO;
 using TrainingDiary.Models.ViewModels;
 using TrainingDiary.Services;
 
@@ -14,7 +17,8 @@ namespace TrainingDiary.Controllers
         private readonly ITrainingService _trainingService;
         private readonly IExerciseService _exerciseService;
 
-        public TrainingController(ITrainingService trainingService, IExerciseService exerciseService)
+        public TrainingController(ITrainingService trainingService, 
+                                  IExerciseService exerciseService)
         {
             _trainingService = trainingService;
             _exerciseService = exerciseService;
@@ -32,7 +36,8 @@ namespace TrainingDiary.Controllers
         {
             if (ModelState.IsValid)
             {
-                var TrainingNumber = await _trainingService.AddTraining(createTrainingViewModel);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var TrainingNumber = await _trainingService.AddTraining(createTrainingViewModel, userId);
                 return RedirectToAction("CreateTraining", new { TrainingNumber });
             }
 

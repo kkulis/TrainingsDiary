@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrainingDiary.Models.ViewModels;
 using TrainingDiary.Services;
@@ -13,7 +15,10 @@ namespace TrainingDiary.Controllers
         private readonly ISummaryService _summaryService;
         private readonly IExerciseService _exerciseService;
         private readonly ITrainingService _trainingService;
-        public SummaryController(ISummaryService summaryService, IExerciseService exerciseService, ITrainingService trainingService)
+        public SummaryController(ISummaryService summaryService, 
+                                 IExerciseService exerciseService, 
+                                 ITrainingService trainingService)
+                              
         {
             _summaryService = summaryService;
             _exerciseService = exerciseService;
@@ -43,7 +48,8 @@ namespace TrainingDiary.Controllers
         [HttpGet]
         public async Task<IActionResult> AllTrainings()
         {
-            var trainings = await _summaryService.GetAllTrainings();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var trainings = await _summaryService.GetAllTrainings(userId);
             return View(trainings);
         }
 

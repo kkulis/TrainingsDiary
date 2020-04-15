@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrainingDiary.Migrations
 {
-    public partial class AddIdentity : Migration
+    public partial class AddUserKeys : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -56,23 +56,6 @@ namespace TrainingDiary.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Trainings",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    TrainingNumber = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TrainingStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrainingEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TrainingTime = table.Column<TimeSpan>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Trainings", x => x.Id);
-                    table.UniqueConstraint("AK_Trainings_TrainingNumber", x => x.TrainingNumber);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,12 +165,37 @@ namespace TrainingDiary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Trainings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    TrainingNumber = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TrainingStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrainingEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrainingTime = table.Column<TimeSpan>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trainings", x => x.Id);
+                    table.UniqueConstraint("AK_Trainings_TrainingNumber", x => x.TrainingNumber);
+                    table.ForeignKey(
+                        name: "FK_Trainings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Exercises",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    CategoryId = table.Column<Guid>(nullable: false)
+                    CategoryId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -198,6 +206,12 @@ namespace TrainingDiary.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Exercises_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,19 +271,19 @@ namespace TrainingDiary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Trainings",
-                columns: new[] { "Id", "TrainingEnd", "TrainingNumber", "TrainingStart", "TrainingTime" },
-                values: new object[] { new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"), new DateTime(2020, 1, 1, 12, 23, 48, 0, DateTimeKind.Unspecified), 1, new DateTime(2020, 1, 1, 11, 23, 44, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0) });
+                columns: new[] { "Id", "TrainingEnd", "TrainingNumber", "TrainingStart", "TrainingTime", "UserId" },
+                values: new object[] { new Guid("6be892a5-12ca-493d-bb74-4ef5b9175bf5"), new DateTime(2020, 1, 1, 12, 23, 48, 0, DateTimeKind.Unspecified), 1, new DateTime(2020, 1, 1, 11, 23, 44, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0), null });
 
             migrationBuilder.InsertData(
                 table: "Exercises",
-                columns: new[] { "Id", "CategoryId", "Name" },
+                columns: new[] { "Id", "CategoryId", "Name", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie sztangi na ławce płaskiej" },
-                    { new Guid("12f1974d-8ebc-4caa-8d34-7d350b7af440"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie hantli na ławce płaskiej" },
-                    { new Guid("170b139a-b929-40de-9644-c590b0507819"), new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "Podciąganie" },
-                    { new Guid("d4ad5722-7a0b-4a7a-976d-2772e5daa0b2"), new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "przyciąganie wyciągu do klatki" },
-                    { new Guid("c7f43e99-e859-43ce-b6ad-3dcac667a729"), new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"), "Przysiad" }
+                    { new Guid("38b381c8-fd1f-408c-ad25-6401fd6f40ca"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie sztangi na ławce płaskiej", null },
+                    { new Guid("12f1974d-8ebc-4caa-8d34-7d350b7af440"), new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Wyciskanie hantli na ławce płaskiej", null },
+                    { new Guid("170b139a-b929-40de-9644-c590b0507819"), new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "Podciąganie", null },
+                    { new Guid("d4ad5722-7a0b-4a7a-976d-2772e5daa0b2"), new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "przyciąganie wyciągu do klatki", null },
+                    { new Guid("c7f43e99-e859-43ce-b6ad-3dcac667a729"), new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"), "Przysiad", null }
                 });
 
             migrationBuilder.InsertData(
@@ -327,6 +341,11 @@ namespace TrainingDiary.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exercises_UserId",
+                table: "Exercises",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Series_ExerciseTrainingId",
                 table: "Series",
                 column: "ExerciseTrainingId");
@@ -340,6 +359,11 @@ namespace TrainingDiary.Migrations
                 name: "IX_TrainingExercises_TrainingId",
                 table: "TrainingExercises",
                 column: "TrainingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainings_UserId",
+                table: "Trainings",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -366,9 +390,6 @@ namespace TrainingDiary.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "TrainingExercises");
 
             migrationBuilder.DropTable(
@@ -379,6 +400,9 @@ namespace TrainingDiary.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

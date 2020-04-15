@@ -51,6 +51,13 @@ namespace TrainingDiary
                 options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddAuthentication()
+                .AddGoogle(o =>
+                {
+                    o.ClientId = Configuration["Google:ClientId"];
+                    o.ClientSecret = Configuration["Google:ClientSecret"];
+                });
+
             //DI
             services.AddTransient<IExerciseService, ExerciseService>();
             services.AddTransient<ITrainingService, TrainingService>();

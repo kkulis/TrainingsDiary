@@ -13,7 +13,9 @@ namespace TrainingDiary.Data.POCO
         public DateTime TrainingStart { get; set; }
         public DateTime TrainingEnd { get; set; }
         public TimeSpan TrainingTime { get; set; }
-       // [JsonIgnore]
+        public virtual User User { get; set; }
+        public string UserId { get; set; }
+        // [JsonIgnore]
         public virtual ICollection<ExerciseTraining> ExerciseTraining { get; set; }
 
 

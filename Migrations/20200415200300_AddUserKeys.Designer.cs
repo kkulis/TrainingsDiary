@@ -10,8 +10,8 @@ using TrainingDiary.Data;
 namespace TrainingDiary.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200415113151_AddIdentity")]
-    partial class AddIdentity
+    [Migration("20200415200300_AddUserKeys")]
+    partial class AddUserKeys
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -199,9 +199,14 @@ namespace TrainingDiary.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Exercises");
 
@@ -318,9 +323,14 @@ namespace TrainingDiary.Migrations
                     b.Property<TimeSpan>("TrainingTime")
                         .HasColumnType("time");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasAlternateKey("TrainingNumber");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Trainings");
 
@@ -458,6 +468,10 @@ namespace TrainingDiary.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TrainingDiary.Data.POCO.User", "User")
+                        .WithMany("Exercises")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TrainingDiary.Data.POCO.ExerciseTraining", b =>
@@ -482,6 +496,13 @@ namespace TrainingDiary.Migrations
                         .HasForeignKey("ExerciseTrainingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TrainingDiary.Data.POCO.Training", b =>
+                {
+                    b.HasOne("TrainingDiary.Data.POCO.User", "User")
+                        .WithMany("Trainings")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

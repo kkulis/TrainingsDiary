@@ -6,6 +6,7 @@
   
 <PropertyGroup>
   <GenerateRuntimeConfigurationFiles>True</GenerateRuntimeConfigurationFiles>
+  <UserSecretsId>40b6fa36-fc0d-4aef-abbf-cb1344cfa982</UserSecretsId>
 </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
     <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.3.0" />
     <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.3.1" />
     <PackageReference Include="JavaScriptEngineSwitcher.V8.Native.win-x64" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">

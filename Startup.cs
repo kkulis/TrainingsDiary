@@ -18,6 +18,8 @@ using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using React.AspNet;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Identity;
+using TrainingDiary.Data.POCO;
 
 namespace TrainingDiary
 {
@@ -36,6 +38,7 @@ namespace TrainingDiary
             services.AddControllersWithViews(o => o.Filters.Add(new AuthorizeFilter()));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
+            services.AddRazorPages();
 
             // Make sure a JS engine is registered, or you will get an error!
             services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName)
@@ -44,8 +47,9 @@ namespace TrainingDiary
                 options.UseSqlServer(
                     Configuration.GetConnectionString("ApplicationDbContext")));
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+            services.AddDefaultIdentity<User>(
+                options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             //DI
             services.AddTransient<IExerciseService, ExerciseService>();
@@ -54,7 +58,6 @@ namespace TrainingDiary
             services.AddTransient<ISummaryService, SummaryService>();
             services.AddTransient<IexerciseCollectionService, ExerciseCollectionService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IUserService, UserService>();
             services.AddAutoMapper(typeof(Startup));
         }
 
@@ -103,6 +106,7 @@ namespace TrainingDiary
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

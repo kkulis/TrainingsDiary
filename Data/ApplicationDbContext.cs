@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using TrainingDiary.Data.POCO;
 
 namespace TrainingDiary.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options): base(options) { }
 
@@ -16,7 +17,7 @@ namespace TrainingDiary.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<ExerciseTraining> TrainingExercises { get; set;}
         public DbSet<Training> Trainings { get; set; }
-        public DbSet<User> Users { get; set;  }
+        //public DbSet<User> Users { get; set;  }
         public DbSet<Series> Series { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -22,9 +22,11 @@ namespace TrainingDiary.Services
 
         }
 
-        public async Task<IList<ExerciseViewModel>> GetExercises(string searchString)
+        public async Task<IList<ExerciseViewModel>> GetExercises(string searchString, string userId)
         {
-            var exercises = _applicationDbContext.Exercises.AsQueryable();
+            var exercises = _applicationDbContext.Exercises
+                .Where(e => e.UserId == userId)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -95,7 +97,7 @@ namespace TrainingDiary.Services
 
     public interface IExerciseService
     {
-        Task<IList<ExerciseViewModel>> GetExercises(string searchString);
+        Task<IList<ExerciseViewModel>> GetExercises(string searchString, string userId);
         Task<ExerciseViewModel> Get1Exercise(Guid? exerciseId);
         Task<int> AddExercise(ExerciseViewModel exerciseViewModel);
         Task<Guid> DeleteExercise(Guid exerciseId);

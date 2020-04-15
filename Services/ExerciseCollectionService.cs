@@ -12,8 +12,8 @@ namespace TrainingDiary.Services
 {
     public interface IexerciseCollectionService
     {
-        public Task<AllExercisesViewModel> GetExercises();
-        public Task AddExercise(AddExerciseViewModel addExerciseViewModel);
+        public Task<AllExercisesViewModel> GetExercises(string userId);
+        public Task AddExercise(AddExerciseViewModel addExerciseViewModel, string userId);
         public Task<AddExerciseViewModel> GetExercise(Guid exerciseId);
         public Task EditExercise(AddExerciseViewModel addExerciseViewModel);
         public Task DeleteExercise(Guid exerciseId);
@@ -28,9 +28,12 @@ namespace TrainingDiary.Services
             _mapper = mapper;
         }
 
-        public async Task<AllExercisesViewModel> GetExercises()
+        public async Task<AllExercisesViewModel> GetExercises(string userId)
         {
-            var exercises =  _applicationDbContext.Exercises.Include(e => e.Category).ToList();
+            var exercises =  _applicationDbContext.Exercises
+                .Where(e => e.UserId == userId)
+                .Include(e => e.Category)
+                .ToList();
 
             var exercisesMapped = _mapper.Map <IEnumerable<ExerciseCollectionViewModel>>(exercises);
 
@@ -41,12 +44,13 @@ namespace TrainingDiary.Services
 
         }
 
-        public async Task AddExercise(AddExerciseViewModel addExerciseViewModel)
+        public async Task AddExercise(AddExerciseViewModel addExerciseViewModel, string userId)
         {
             Guid exerciseId = Guid.NewGuid();
 
             var exercise = new Exercise
             {
+                UserId = userId,
                 Id = exerciseId,
                 Name = addExerciseViewModel.Name,
                 CategoryId = addExerciseViewModel.Category.Id

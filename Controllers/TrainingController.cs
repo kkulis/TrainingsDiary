@@ -47,7 +47,8 @@ namespace TrainingDiary.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTraining(string searchString, int TrainingNumber)
         {
-            var exercises = await _exerciseService.GetExercises(searchString);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var exercises = await _exerciseService.GetExercises(searchString, userId);
             var training = await _trainingService.GetTraining(TrainingNumber);
 
             return View(new CreateTrainingViewModel()

@@ -42,7 +42,9 @@ namespace TrainingDiary.Services
                 .Where(t => t.UserId == userId)
                 .OrderByDescending(t => t.TrainingNumber)
                 .ToList();
-            var trainigsNumber = _applicationDbContext.Trainings.Count();
+            var trainigsNumber = _applicationDbContext.Trainings
+                .Where(t => t.UserId == userId)
+                .Count();
 
             var allTrainingsMapped = _mapper.Map<IEnumerable<TrainingSummaryViewModel>>(allTrainings);
 

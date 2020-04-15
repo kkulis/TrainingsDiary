@@ -3,8 +3,15 @@
 }
 
 
-<div class="container">
-    <h1>Training's Diary</h1>
+    <div class="container">
+        <h1>Training's Diary</h1>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a class="btn btn-primary" asp-controller="Training" asp-action="AddTraining">Add Your Training!</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Log in</a>
+        }
 
-    <a class="btn btn-primary" asp-controller="Training" asp-action="AddTraining">Add Your Training!</a>
-</div>
+    </div>

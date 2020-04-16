@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrainingDiary.Migrations
 {
-    public partial class AddUserKeys : Migration
+    public partial class UserKeys : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,18 +44,6 @@ namespace TrainingDiary.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,6 +153,25 @@ namespace TrainingDiary.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trainings",
                 columns: table => new
                 {
@@ -261,12 +268,12 @@ namespace TrainingDiary.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Name", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Klata" },
-                    { new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "Plecy" },
-                    { new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"), "Nogi" }
+                    { new Guid("63cfba80-9041-4994-bbc9-9f0f28b51388"), "Klata", null },
+                    { new Guid("cf36d573-0160-4252-ab78-b12805ae9c07"), "Plecy", null },
+                    { new Guid("f52c961d-bd06-4e33-9adf-67f587ccaabe"), "Nogi", null }
                 });
 
             migrationBuilder.InsertData(
@@ -334,6 +341,11 @@ namespace TrainingDiary.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_UserId",
+                table: "Categories",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Exercises_CategoryId",

@@ -1,0 +1,36 @@
+﻿@model TrainingDiary.Models.ViewModels.CategoryViewModel
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+
+            </tr>
+        </thead>
+        <tbody
+
+            <tr>
+                <td>@Model.Name</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <form method="post">
+        @Html.HiddenFor(e => e.Id)
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" value="" class="form-control" />
+            <span asp-validation-for="Name"></span>
+        </div>
+
+        <div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+    </form>
+</div>

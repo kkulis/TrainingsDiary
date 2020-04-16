@@ -10,5 +10,6 @@ namespace TrainingDiary.Data.POCO
     {
         public ICollection<Exercise> Exercises { get; set; }
         public ICollection<Training> Trainings { get; set; }
+        public ICollection<Category> Categories { get; set;  }
     }
 }

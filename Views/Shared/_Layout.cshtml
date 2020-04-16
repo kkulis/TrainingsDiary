@@ -44,8 +44,17 @@
                                     <a class="dropdown-item" href="#">something sometime</a>
                                 </div>
                             </li>
-                            <li class="nav-item">
-
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Categories
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Category" asp-action="AddCategory">Add Category</a>
+                                    <a class="dropdown-item" asp-controller="Category" asp-action="ShowCategories">Show Categories</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">something sometime</a>
+                                </div>
+                            </li>
                         </ul>
                         <partial name="_LoginPartial" />
 

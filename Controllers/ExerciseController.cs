@@ -31,7 +31,8 @@ namespace TrainingDiary.Controllers
         [HttpGet]
         public async Task<IActionResult> AddExercise()
         {
-            var categories = await _categoryService.GetCategories();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var categories = await _categoryService.GetCategories(userId);
 
             var categoriesSelectList = new SelectList(categories, "Id", "Name");
 
@@ -46,14 +47,16 @@ namespace TrainingDiary.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddExercise(AddExerciseViewModel addExerciseViewModel)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 await _exerciseCollectionService.AddExercise(addExerciseViewModel, userId);
                 return RedirectToAction("ShowExercises");
             }
 
-            var categories = new SelectList(await _categoryService.GetCategories(), "Id", "Name");
+            var categories = new SelectList(await _categoryService.GetCategories(userId), "Id", "Name");
             return View(new AddExerciseViewModel()
             {
                 Categories = categories
@@ -64,9 +67,10 @@ namespace TrainingDiary.Controllers
         [HttpGet]
         public async Task<IActionResult> EditExercise(Guid exerciseId)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var exercise = await _exerciseCollectionService.GetExercise(exerciseId);
 
-            var categories = await _categoryService.GetCategories();
+            var categories = await _categoryService.GetCategories(userId);
 
             var categoriesSelectList = new SelectList(categories, "Id", "Name");
 
@@ -82,13 +86,14 @@ namespace TrainingDiary.Controllers
         [HttpPost]
         public async Task<IActionResult> EditExercise(AddExerciseViewModel addExerciseViewModel)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (ModelState.IsValid)
             {
                 await _exerciseCollectionService.EditExercise(addExerciseViewModel);
                 return RedirectToAction("ShowExercises");
             }
 
-            var categories = new SelectList(await _categoryService.GetCategories(), "Id", "Name");
+            var categories = new SelectList(await _categoryService.GetCategories(userId), "Id", "Name");
             return View(new AddExerciseViewModel()
             {
                 Categories = categories

@@ -5,14 +5,35 @@
 
     <div class="container">
         <h1>Training's Diary</h1>
+
         @if (User.Identity.IsAuthenticated)
         {
-            <a class="btn btn-primary" asp-controller="Training" asp-action="AddTraining">Add Your Training!</a>
+            <h5>Welcome to Training's Diary!</h5>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col">
+                    <h6>1. First create your Exercise Categories!</h6>
+                    <p>e.g. Chest Workout</p>
+                    <a class="btn btn-primary" asp-controller="Category" asp-action="AddCategory">Add Your Categories!</a>
+                </div>
+                <div class="col">
+                    <h6>2. Then create your Exercises.</h6>
+                    <p>e.g. Chest Press</p>
+                    <a class="btn btn-primary" asp-controller="Exercise" asp-action="AddExercise">Add Your Exercises!</a>
+                </div>
+                <div class="col">
+                    <h6>3. Finally add your Trainings !</h6>
+                    <p>Enjoy!</p>
+                    <a class="btn btn-primary" asp-controller="Training" asp-action="AddTraining">Add Your Training!</a>
+                </div>
+            </div>
         }
         else
         {
+            <h5>Log in</h5>
             <a class="btn btn-primary" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-
+            <h5>Register</h5>
             <a class="btn btn-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
         }
 

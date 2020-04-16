@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TrainingDiary.Data.POCO
+namespace TrainingDiary.Models.ViewModels
 {
-    public class Category
+    public class AddCategoryViewModel
     {
+        [Required]
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public virtual User User { get; set; }
         public string UserId { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<Exercise> Exercises { get; set; }
     }
 }

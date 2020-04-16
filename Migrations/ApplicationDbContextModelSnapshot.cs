@@ -163,7 +163,12 @@ namespace TrainingDiary.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories");
 
@@ -457,6 +462,13 @@ namespace TrainingDiary.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TrainingDiary.Data.POCO.Category", b =>
+                {
+                    b.HasOne("TrainingDiary.Data.POCO.User", "User")
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TrainingDiary.Data.POCO.Exercise", b =>

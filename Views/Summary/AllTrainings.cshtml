@@ -4,31 +4,31 @@
 }
 
 
-    <div class="container">
-        <h5>Number of Trainings Done: @Model.TrainingsNumber</h5>
-        @if (TempData["Message"] != null)
-        {
-            <div class="alert alert-info">@TempData["Message"]</div>
-        }
-        <table class="table">
-            <thead>
+<div class="container">
+    <h5>Number of Trainings Done: @Model.TrainingsNumber</h5>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-info">@TempData["Message"]</div>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Training Start</th>
+                <th scope="col">Training End</th>
+                <th scope="col">Details</th>
+                <th scope="col">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var training in Model.Trainings)
+            {
                 <tr>
-                    <th scope="col">Training Start</th>
-                    <th scope="col">Training End</th>
-                    <th scope="col">Details</th>
-                    <th scope="col">Remove</th>
+                    <td>@training.TrainingStart</td>
+                    <td>@training.TrainingEnd</td>
+                    <td><a class="btn btn-dark" asp-controller="Summary" asp-action="TrainingSummary" asp-route-trainingNumber="@training.TrainingNumber">Details</a></td>
+                    <td><a class="btn btn-outline-info" asp-controller="Summary" asp-action="DeleteTraining" asp-route-trainingNumber="@training.TrainingNumber">Remove Training</a></td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var training in Model.Trainings)
-                {
-                    <tr>
-                        <td>@training.TrainingStart</td>
-                        <td>@training.TrainingEnd</td>
-                        <td><a class="btn btn-dark" asp-controller="Summary" asp-action="TrainingSummary" asp-route-trainingNumber="@training.TrainingNumber">Details</a></td>
-                        <td><a class="btn btn-outline-info" asp-controller="Summary" asp-action="DeleteTraining" asp-route-trainingNumber="@training.TrainingNumber">Remove Training</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+</div>

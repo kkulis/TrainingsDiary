@@ -1,0 +1,18 @@
+﻿@model TrainingDiary.Models.ViewModels.CategoryViewModel
+@{
+    ViewData["Title"] = "All Categories";
+}
+
+<div class="container">
+    <h5>Add Category</h5>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" value="" class="form-control" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+    </form>
+</div>

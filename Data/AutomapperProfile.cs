@@ -33,6 +33,8 @@ namespace TrainingDiary.Data
                 .ReverseMap();
             CreateMap<Exercise, AddExerciseViewModel>()
                 .ReverseMap();
+            CreateMap<Category, AddCategoryViewModel>()
+                .ReverseMap();
 
 
         }
